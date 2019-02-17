@@ -34,6 +34,9 @@ server.use('/subcategory',RoutesubCategory);
 var RouteProduct = require('./controller/product');
 server.use('/product',RouteProduct);
 
+var Routeoffer = require('./controller/offer');
+server.use('/offer',Routeoffer);
+
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
 });
