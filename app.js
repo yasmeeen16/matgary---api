@@ -4,8 +4,9 @@ require('dotenv').config();
 var path=require('path');
 var multer=require("multer");
 var mongoose = require('mongoose');
-
-const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tourism';
+var expressValidator = require('express-validator');
+server.use(expressValidator());
+const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mtgari-matgari';
 mongoose.promise = global.promise;
 
 mongoose.connect(CONNECTION_URI
