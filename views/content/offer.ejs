@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title> Products </title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/dashboard.css?v=1.4.0" rel="stylesheet" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+
+    <style >
+    #add:link, #add:visited {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            }
+
+            a:hover, a:active {
+            background-color: red;
+            }
+    </style>
+</head>
+
+<body>
+
+  <%include ../layout/sidebar.ejs%>
+  <div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table">
+                                        <a id="add" href="/webadmin/addoffer">اضافه عرض</a>
+                                        <tbody>
+                                          <%offers.forEach(function(offer){ %>
+                                            <tr>
+                                                <td>
+                                                    <div class="product">
+                                                        <div class="product-img"><img style="  border: 1px solid #ddd;  border-radius: 4px;padding: 5px;width: 500px!important;  height: 150px;border-radius: 5px;" src="/imgs/<%=offer.img%>"> </div>
+
+                                                    </div>
+                                                </td>
+
+
+                                                <td>
+                                                    <p style="font-weight: 600;font-size:18px;"><%=offer.name%></p>
+                                                </td>
+
+                                                <td>
+                                                  <a href="/webadmin/deleteoffer/<%=offer._id%>">حذف</a>
+                                                  <a href="/webadmin/editoffer/<%=offer._id%>">تعديل</a>
+                                                   <!-- <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
+                                                    <ul class="little">
+                                                        <li><a>Edit</a></li>
+                                                        <li><a>Delete</a></li>
+
+                                                    </ul> -->
+                                                </td>
+
+                                            </tr>
+                                            <%});%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-facebook fa-2x"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-twitter-square fa-2x"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Portfolio
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </footer>
+
+
+        </div>
+    </div>
+    <script>
+        var x = document.getElementsByClassName('dot');
+        for (let a = 0; a < x.length; a++) {
+            document.getElementsByClassName('dot')[a].addEventListener('click', function show() {
+                document.getElementsByClassName('little')[a].classList.toggle('little-v');
+            });
+        }
+
+    </script>
+    <script>
+//        $(document).ready(function() {
+//                    $(".fa-chevron-down").click(function() {
+//                            $("tbody tr").after(" <p>hello</p> ");
+//                            });
+//                    });
+    </script>
+
+</body>
+
+
+<script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+
+
+</html>
