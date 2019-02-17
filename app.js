@@ -37,6 +37,9 @@ server.use('/product',RouteProduct);
 var Routeoffer = require('./controller/offer');
 server.use('/offer',Routeoffer);
 
+var Routeadmin = require('./controller/admin');
+server.use('/admin',Routeadmin);
+
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
 });
