@@ -2,9 +2,9 @@ var express = require('express');
 var Router = express.Router();
 
 
-Router.get('/',function(req,resp,next){
+Router.get('/cat',function(req,resp,next){
 
-        resp.json({msg:'Matgary Api'});
+        resp.json({msg:'cat'});
 
 
 });

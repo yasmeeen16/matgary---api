@@ -24,6 +24,8 @@ var userRouts = require("./controller/user.js");
 server.use("/user",userRouts);
 server.use("/",userRouts);
 
+var categoryRouts = require("./controller/category.js");
+server.use("/category",categoryRouts);
 
 
 server.listen(PORT,function(){
