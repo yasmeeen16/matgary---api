@@ -40,6 +40,14 @@ server.use('/offer',Routeoffer);
 var Routeadmin = require('./controller/admin');
 server.use('/admin',Routeadmin);
 
+var AuthRouts = require('./controller/authClient');
+server.use('/authClient',AuthRouts);
+require('./Model/clientData');
+
+var AuthRoutsVendor = require('./controller/authVendor');
+server.use('/authVendor',AuthRoutsVendor);
+require('./Model/vendorData');
+
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
 });
