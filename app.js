@@ -31,6 +31,8 @@ server.use("/category",categoryRouts);
 var RoutesubCategory = require('./controller/subCategory');
 server.use('/subcategory',RoutesubCategory);
 
+var RouteProduct = require('./controller/product');
+server.use('/product',RouteProduct);
 
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
