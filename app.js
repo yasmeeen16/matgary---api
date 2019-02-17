@@ -24,9 +24,7 @@ var userRouts = require("./controller/user.js");
 server.use("/user",userRouts);
 server.use("/",userRouts);
 
-var RouteCategory = require('./controller/category');
-server.use('/category',RouteCategory);
-require('./Model/Category');
+
 
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
