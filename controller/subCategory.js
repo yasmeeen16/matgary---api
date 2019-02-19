@@ -93,6 +93,71 @@ Router.get('/all_subCategory',function(req,resp,next){
 });
 
 
+Router.post('/addsubCategorytoparent/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+console.log((req.params.catId));
 
+  //var categoryId = mongoose.Types.ObjectId(req.param.categoryId);
+  //var categoryId = req.body.categoryId;
+  //var catId = req.param.catId;
+  var Ename = req.body.Ename;
+  var Aname = req.body.Aname;
+  var img = req.file;
+//resp.json(req.file)
+  req.checkBody('Ename','english name is empty').notEmpty();
+  req.checkBody('Aname','arabic name is empty').notEmpty();
+
+  let errors = req.validationErrors();
+  if(errors){
+    resp.json(errors);
+  }else{
+        if(img){
+
+                          ext=img.originalname;
+                          ext2=ext.split('.');
+                          fs.renameSync(img.path,img.destination+"/"+img.filename+'.'+ext2[1] );
+                          img = img.filename+'.'+ext2[1];
+                          console.log(img);
+                          categoryDataModel.find({Ename:req.body.Ename }, function(err, category) {
+                                                if(err){
+                                                  resp.json(err);
+                                                }else if(category.length > 0){
+                                                  resp.json({ msg : "duplicate category" });
+                                                }else{
+                                                  var myCategory = new categoryDataModel({
+                                                    parentId:req.params.catId,
+                                                    Ename: req.body.Ename,
+                                                    Aname: req.body.Aname,
+                                                    img:img,
+                                                    time:new Date()
+                                                  });
+                                                  myCategory.save(function(err,doc){
+                                                    if(err){
+                                                      resp.json(err);
+                                                  }else{
+                                                      console.log("saved")
+                                                      resp.json(doc);
+                                                  }
+                                                  });
+
+                                                }
+
+                                              });
+        }else{
+          resp.json({msg:"upload your img"})
+        }
+      }
+//console.log(parseInt(req.param.catId));
+});
+Router.get('/all_',function(req,resp,next){
+
+ //console.log(catId);
+    categoryDataModel.find({}, function(err, cats) {
+      categoryDataModel.populate(cats,{path:"parentId"},function(err,cats){
+        resp.json({data:cats});
+      })
+
+    });
+
+});
 
 module.exports=Router;

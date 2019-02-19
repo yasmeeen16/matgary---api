@@ -12,11 +12,11 @@ var Category = new Schema ({
     img:{type:String,default:0}
 
   },
+  parentId:{ type: Schema.ObjectId,ref:"Category",default:null },
   time:{
     type:Date,
     Default:Date.now()
   }
-  //package: [{ type: Schema.Types.ObjectId, ref: 'Package' }]
 });
 
 mongoose.model("Category",Category);

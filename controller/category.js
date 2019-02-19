@@ -26,10 +26,8 @@ Router.get('/allCategory',function(req,resp,next){
 });
 
 Router.post('/addCategory',uploadMid.single('img'),function(req,resp,next){
-
-
-// //   var Ename = req.body.Ename;
-// //   var Aname = req.body.Aname;
+  var Ename = req.body.Ename;
+  var Aname = req.body.Aname;
     var img = req.file;
 // // //resp.json(req.file)
   if(!img){
@@ -87,6 +85,73 @@ Router.get('/cat',function(req,resp,next){
 
 });
 
+Router.post('/addCategory2',uploadMid.single('img'),function(req,resp,next){
+  var Ename = req.body.Ename;
+  var Aname = req.body.Aname;
+    var img = req.file;
+// // //resp.json(req.file)
 
+    console.log(req.query.parentId);
+
+
+  if(!img){
+    resp.json({msg:"upload your img "})
+  }else{
+  req.checkBody('Ename','english name is empty').notEmpty();
+  req.checkBody('Aname','arabic name is empty').notEmpty();
+
+  let errors = req.validationErrors();
+  if(errors){
+    resp.json(errors);
+  }else{
+
+
+                ext=img.originalname;
+                ext2=ext.split('.');
+                console.log(img.path);
+                console.log(img.destination);
+                // // console.log(img.destination+"/"+img.filename+'.'+ext2[1]);
+                // // var NewPath = img.destination+"/"+img.filename+'.'+ext2[1];
+                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                console.log(img.path);
+                // resp.json(req.file);
+                img = req.file.filename+'.'+ext2[1];
+                console.log(img);
+
+      categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
+                            if(category.length > 0){
+                              resp.json({ msg : "duplicate category" });
+                            }else{
+                              var myCategory = new categoryDataModel({
+                                Ename:req.body.Ename,
+                                Aname: req.body.Aname,
+                                parentId:req.query.parentId,
+                                img:img,
+                                time:new Date()
+                              });
+                              myCategory.save(function(err,doc){
+                                if(err){
+                                  resp.json(err);
+                              }else{
+                                  console.log("saved")
+                                  resp.json(doc);
+                              }
+                              });
+                            }
+                          });
+                  }
+                }
+});
+Router.get('/all_categories',function(req,resp,next){
+
+ //console.log(catId);
+    categoryDataModel.find({}, function(err, cats) {
+      categoryDataModel.populate(cats,{path:"parentId"},function(err,cats){
+        resp.json({data:cats});
+      })
+
+    });
+
+});
 
 module.exports=Router;
