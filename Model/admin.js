@@ -9,7 +9,8 @@ var admin = new Schema ({
   time:{
     type:Date,
     default:Date.now()
-  }
+  },
+  status:{type: String , default:'admin'}
 });
 //register model for client
 mongoose.model("admin",admin);

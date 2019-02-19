@@ -4,6 +4,10 @@ require('dotenv').config();
 var path=require('path');
 var multer=require("multer");
 var mongoose = require('mongoose');
+var session = require('express-session');
+server.use(session({
+    secret:'krunal'
+}));
 var expressValidator = require('express-validator');
 server.use(expressValidator());
 const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mtgari-matgari';
@@ -42,11 +46,25 @@ server.use('/admin',Routeadmin);
 
 var AuthRouts = require('./controller/authClient');
 server.use('/authClient',AuthRouts);
-require('./Model/clientData');
 
 var AuthRoutsVendor = require('./controller/authVendor');
 server.use('/authVendor',AuthRoutsVendor);
-require('./Model/vendorData');
+
+var webAuthAdminRouts=require('./controller/webAuthAdmin');
+server.use('/authadmin',webAuthAdminRouts);
+
+server.use(function(req,resp,next){
+    if(!(req.session.email && req.session.password )){
+        resp.redirect('/authadmin/login');
+    }
+    else{
+      next();
+    }
+});
+
+var webAdminRouts=require('./controller/webadmin');
+server.use('/admin', webAdminRouts);
+
 
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
