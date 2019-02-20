@@ -16,9 +16,10 @@ var productModel = mongoose.model("product");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-Router.get('/allCategory',function(req,resp,next){
+//get all parent categories
+Router.get('/allCategoryparent',function(req,resp,next){
 
-    categoryDataModel.find({}, function(err, categories) {
+    categoryDataModel.find({parent:null},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, categories) {
                       //resp.render("content/listCat.ejs",{  categories:  categories});
                       resp.json({  categories:  categories});
                   });
@@ -78,12 +79,7 @@ Router.post('/addCategory',uploadMid.single('img'),function(req,resp,next){
                 }
 });
 
-Router.get('/cat',function(req,resp,next){
 
-        resp.json({msg:'cat'});
-
-
-});
 
 Router.post('/addCategory2',uploadMid.single('img'),function(req,resp,next){
   var Ename = req.body.Ename;
@@ -125,7 +121,7 @@ Router.post('/addCategory2',uploadMid.single('img'),function(req,resp,next){
                               var myCategory = new categoryDataModel({
                                 Ename:req.body.Ename,
                                 Aname: req.body.Aname,
-                                parentId:req.query.parentId,
+                                parent:req.query.parentId,
                                 img:img,
                                 time:new Date()
                               });
@@ -146,9 +142,39 @@ Router.get('/all_categories',function(req,resp,next){
 
  //console.log(catId);
     categoryDataModel.find({}, function(err, cats) {
-      categoryDataModel.populate(cats,{path:"parentId"},function(err,cats){
+      categoryDataModel.populate(cats,{path:"parent"},function(err,cats){
         resp.json({data:cats});
       })
+
+    });
+
+});
+//get sub categories
+Router.get('/subcategories/:catId',function(req,resp,next){
+
+ //console.log(catId);
+    categoryDataModel.find({parent:req.params.catId},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
+
+        resp.json({data:cats});
+
+
+    });
+
+});
+
+//get parent category
+Router.get('/getparent/:catId',function(req,resp,next){
+
+ //console.log(catId);
+    categoryDataModel.findOne({_id:req.params.catId}, function(err, cat) {
+      categoryDataModel.find({_id:cat.parent},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cat) {
+
+          resp.json({data:cat});
+
+
+      });
+
+
 
     });
 

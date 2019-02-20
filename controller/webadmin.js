@@ -23,7 +23,13 @@ var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
 //
 // ////////////////////////////////////
-Router.get('/Home',function(req,resp,next){
+Router.get('/home',function(req,resp,next){
+  categoryDataModel.find({}, function(err, cats) {
+    categoryDataModel.populate(cats,{path:"parent"},function(err,cats){
+      resp.render('content/home.ejs',{data:cats});
+    })
+
+  });
 
 });
 

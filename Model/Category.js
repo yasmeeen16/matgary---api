@@ -12,7 +12,7 @@ var Category = new Schema ({
     img:{type:String,default:0}
 
   },
-  parentId:{ type: Schema.ObjectId,ref:"Category",default:null },
+  parent:{ type: Schema.ObjectId,ref:"Category",default:null },
   time:{
     type:Date,
     Default:Date.now()

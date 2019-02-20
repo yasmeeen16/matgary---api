@@ -54,7 +54,7 @@ var webAuthAdminRouts=require('./controller/webAuthAdmin');
 server.use('/authadmin',webAuthAdminRouts);
 
 server.use(function(req,resp,next){
-    if(!(req.session.email && req.session.password )){
+    if(!(req.session.email && req.session.password && req.session.status=="admin")){
         resp.redirect('/authadmin/login');
     }
     else{

@@ -43,8 +43,11 @@ Router.post('/login',BodyParserMid,function(req,resp){
                       {
                             req.session.email = req.body.email;
                             req.session.password=req.body.password;
+                            req.session.status="admin";
+                            console.log(req.session.status)
                             console.log(req.session.email);
-                            resp.json({ user: user});
+                            //resp.json({ user: user});
+                            resp.redirect('/admin/home');
                       }else {
                           resp.redirect("/authadmin/login");
                       }
