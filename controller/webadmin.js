@@ -34,10 +34,74 @@ Router.get('/home',function(req,resp,next){
 });
 
 
-// Router.get('/addCategory',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//   resp.render("content/addcat.ejs");
-// });
+Router.get('/addCategory',function(req,resp,next){
+  categoryDataModel.find({},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
+  resp.render("content/addCategory.ejs",{data:cats});
+  });
+});
+
+Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+
+//   var Ename = req.body.Ename;
+//   var Aname = req.body.Aname;
+   var img = req.file;
+   var parent;
+   if(req.body.parent=="0"){parent=null;}else{
+     parent=req.body.parent;
+   }
+// //resp.json(req.file)
+  if(!img){
+    resp.redirect("/admin/addCategory");
+    //resp.json({msg:"upload your img "})
+  }else{
+  req.checkBody('Ename','english name is empty').notEmpty();
+  req.checkBody('Aname','arabic name is empty').notEmpty();
+
+  let errors = req.validationErrors();
+  if(errors){
+    //resp.json(errors);
+    resp.redirect("/admin/addCategory");
+  }else{
+
+
+                ext=img.originalname;
+                ext2=ext.split('.');
+                console.log(img.path);
+                console.log(img.destination);
+                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                console.log(img.path);
+                img = req.file.filename+'.'+ext2[1];
+                console.log(img);
+
+      categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
+                            if(category.length > 0){
+                              //resp.json({ msg : "duplicate category" });
+                              resp.redirect("/admin/addCategory");
+                            }else{
+                              var myCategory = new categoryDataModel({
+                                Ename:req.body.Ename,
+                                Aname: req.body.Aname,
+                                img:img,
+                                parent:parent,
+                                time:new Date()
+                              });
+                              myCategory.save(function(err,doc){
+                                if(err){
+                                  resp.redirect("/admin/addCategory");
+                                  //resp.json(err);
+                              }else{
+                                  console.log("saved")
+                                  resp.redirect("/admin/home");
+                              }
+                              });
+                            }
+                          });
+                  }
+                }
+});
+
+
+
 // var categoryModel = mongoose.model("Category");
 // Router.get('/',function(req,resp,next){
 //
@@ -63,62 +127,7 @@ Router.get('/home',function(req,resp,next){
 //
 // });
 //
-// Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
-// //resp.json(req.file);
-// //   var Ename = req.body.Ename;
-// //   var Aname = req.body.Aname;
-//    var img = req.file;
-// // //resp.json(req.file)
-//   if(!img){
-//     resp.redirect("/webadmin/addCategory");
-//     //resp.json({msg:"upload your img "})
-//   }else{
-//   req.checkBody('Ename','english name is empty').notEmpty();
-//   req.checkBody('Aname','arabic name is empty').notEmpty();
-//
-//   let errors = req.validationErrors();
-//   if(errors){
-//     //resp.json(errors);
-//     resp.redirect("/webadmin/addCategory");
-//   }else{
-//
-//
-//                 ext=img.originalname;
-//                 ext2=ext.split('.');
-//                 console.log(img.path);
-//                 console.log(img.destination);
-//                 fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-//                 console.log(img.path);
-//                 img = req.file.filename+'.'+ext2[1];
-//                 console.log(img);
-//
-//       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
-//                             if(category.length > 0){
-//                               //resp.json({ msg : "duplicate category" });
-//                               resp.redirect("/webadmin/addCategory");
-//                             }else{
-//                               var myCategory = new categoryDataModel({
-//                                 Ename:req.body.Ename,
-//                                 Aname: req.body.Aname,
-//                                 img:img,
-//                                 time:new Date()
-//                               });
-//                               myCategory.save(function(err,doc){
-//                                 if(err){
-//                                   resp.redirect("/webadmin/addCategory");
-//                                   //resp.json(err);
-//                               }else{
-//                                   console.log("saved")
-//                                   resp.redirect("/webadmin/listAllCategories");
-//                               }
-//                               });
-//                             }
-//                           });
-//                   }
-//                 }
-// });
-//
-//
+
 // /////////////////////////////////My Project////////////////////////////////////////
 // Router.get('/editCategory/:catId',function(req,resp,next){
 //

@@ -77,10 +77,10 @@
                       var $butt = $("<button>", test);
                       $butt.html(data["data"][i].Aname);
                       
-                      $li= $('<li/>', { class: 'myli' });
-                      $aedit= $('<a/>', { class: 'myaedit' });
+                      $li= $('<li>', { class: 'myli'  });
+                      $aedit= $('<a>', { class: 'myaedit' ,href:"" });
                       $aedit.html(" تعديل " );
-                      $adelete= $('<a/>', { class: 'myadelete' });
+                      $adelete= $('<a>', { class: 'myadelete',href:"" });
                       $adelete.html("حذف ");
                       $li.append($aedit);
                       $li.append($adelete);
