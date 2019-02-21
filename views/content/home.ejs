@@ -21,15 +21,15 @@
                                       <tr>
                              
                                         <td>
-                                          <button  class="my1" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
+                                          <button   class="button button2" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
                                           <!-- <ul id="myList">
                                            
                                            
                                          </ul> -->
                                         </td>
                                         <td>
-                                          <a href="">edit</a>
-                                          <a href="">delete</a>
+                                          <a href=""> تعديل </a>
+                                          <a href=""> حذف </a>
                                         </td>
                                       </tr>
                                       <%});%>
@@ -69,22 +69,19 @@
                 for(var i=0;i<data["data"].length;i++){
                   var test = {
                     "value": data["data"][i]._id ,
-                    class:"my1",
+                    class:"button button2",
                      type:"button",
-                     name:"button",
-                        css: {
-                          
-                          "color": "Green"
-                        }
+                     name:"button"
+                        
                       };
                       var $butt = $("<button>", test);
                       $butt.html(data["data"][i].Aname);
                       
                       $li= $('<li/>', { class: 'myli' });
                       $aedit= $('<a/>', { class: 'myaedit' });
-                      $aedit.html("edit");
+                      $aedit.html(" تعديل " );
                       $adelete= $('<a/>', { class: 'myadelete' });
-                      $adelete.html("delete");
+                      $adelete.html("حذف ");
                       $li.append($aedit);
                       $li.append($adelete);
                       $li.append($butt);
