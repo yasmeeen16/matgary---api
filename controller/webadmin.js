@@ -24,11 +24,11 @@ var uploadMid = multer({dest:"./public/imgs"});
 //
 // ////////////////////////////////////
 Router.get('/home',function(req,resp,next){
-  categoryDataModel.find({}, function(err, cats) {
-    categoryDataModel.populate(cats,{path:"parent"},function(err,cats){
-      resp.render('content/home.ejs',{data:cats});
-    })
+  
 
+    categoryDataModel.find({parent:null},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
+      //resp.render("content/listCat.ejs",{  categories:  categories});
+      resp.render('content/home.ejs',{data:cats});
   });
 
 });

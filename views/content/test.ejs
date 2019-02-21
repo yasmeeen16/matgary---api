@@ -1,55 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/dashboard.css?v=1.4.0" rel="stylesheet" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+ 
+  </head>
+  <body>
 
-<%include ../layout/header.ejs%>
+    <table class="table table-hover">
+       <thead>
+         <tr>
+           <th>الاقسام</th>
 
-<div class="main-panel">
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
+         </tr>
+       </thead>
+       <tbody>
+         <%data.forEach(function(category){ %>
+         <tr>
 
-                                <div class="content table-responsive table-full-width">
-                                  <table class="table table-hover">
-                                    <thead>
-                                      <tr>
-                                        <th>الاقسام</th>
-                             
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <%data.forEach(function(category){ %>
-                                      <tr>
-                             
-                                        <td>
-                                          <button  class="my1" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
-                                          <!-- <ul id="myList">
-                                           
-                                           
-                                         </ul> -->
-                                        </td>
-                                        <td>
-                                          <a href="">edit</a>
-                                          <a href="">delete</a>
-                                        </td>
-                                      </tr>
-                                      <%});%>
-                             
-                                    </tbody>
-                                  </table>
+           <td>
+             <button  class="my1" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
+             <!-- <ul id="myList">
+              
+              
+            </ul> -->
+           </td>
+           <td>
+             <a href="">edit</a>
+             <a href="">delete</a>
+           </td>
+         </tr>
+         <%});%>
 
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-
-
-    </div>
-    <script type="text/javascript">
+       </tbody>
+     </table>
+     <script type="text/javascript">
  
       $(document).ready(function(){
        
@@ -117,4 +111,11 @@
 
       });
     </script>
-    <%include ../layout/footer.ejs%>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+  </body>
+</html>
