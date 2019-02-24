@@ -489,91 +489,91 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
 //       }
 // //console.log(parseInt(req.param.catId));
 // });
-// Router.get('/addproductToCat/:catId',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//   //console.log((req.params.catId));
-//   categoryDataModel.findOne({_id:req.params.catId},function(err,cat){
-//       //console.log(cat.Ename);
-//       resp.render("content/addproducttocategory.ejs",{cat:cat});
-//   })
-//
-// });
-// //add product to category
-// Router.post("/addproductToCat/:catId",uploadMid.any(),function(req,resp){
-//
-//     //var contact = req.body.contact;
-//     var imgs = [];
-//
-//
-//         // req.checkBody('name','name is empty').notEmpty();
-//         // req.checkBody('desc','description is empty').notEmpty();
-//         // req.checkBody('price','price is empty').notEmpty();
-//         // req.checkBody('hotelName','hotel name is empty').notEmpty();
-//         // let errors = req.validationErrors();
-//         // if(errors){
-//         //   resp.redirect('/umrah/addUmrah');
-//         //   // return resp.status(409).json({
-//         //   //   message:"enter your data"
-//         //   // });
-//         // }
-//         //else{
-//
-//         var productimg = [];
-//           if (req.files.length > 0){
-//             for(var i=0 ; i < req.files.length ; i++ ){
-//               ext=req.files[i].originalname;
-//               ext2=ext.split('.');
-//               fs.renameSync(req.files[i].path,req.files[i].destination+"/"+req.files[i].filename+'.'+ext2[1] );
-//               productimg.push(req.files[i].filename+'.'+ext2[1]);
-//
-//             }//end for
-//           }// end if
-//
-//            productModel.find({Aname:req.body.Aname , Ename:req.body.Ename}, function(err, products) {
-//                             //resp.json({   omraTrips: omraTrips});
-//                             if(products.length > 0){
-//                               resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
-//                               //resp.json({ msg : "duplicate omra trip" });
-//                             }else{
-//                               var product = new productModel({
-//                                 Ename:req.body.Ename,
-//                                 Aname:req.body.Aname,
-//                                 modelnumber:req.body.modelnumber,
-//                                 brandArabic:req.body.brandArabic,
-//                                 brandEnglish:req.body.brandEnglish,
-//                                 price1:req.body.price1,
-//                                 price2:req.body.price2,
-//                                 imgs:productimg,
-//                                 catId:req.params.catId,
-//                                 discount:req.body.discount,
-//                                 discriptionEnglish:req.body.discriptionEnglish,
-//                                 discriptionArabic:req.body.discriptionArabic,
-//                                 tagsArabic:req.body.tagsArabic,
-//                                 tagsEnglish:req.body.tagsEnglish,
-//                                 freeshipping:req.body.freeshipping,
-//                                 heighlightEnglish:req.body.heighlightEnglish,
-//                                 heighlightArabic:req.body.heighlightArabic,
-//                                 specificationEnglish:req.body.specificationEnglish,
-//                                 specificationArabic:req.body.specificationArabic,
-//                                 quantity:req.body.quantity,
-//                                 status:req.body.status,
-//                                 time:Date.now()
-//                               });//object of product
-//                               product.save(function(err) {
-//                                     if(err){
-//                                         resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
-//                                         //console.log(err);
-//                                         return;
-//                                       }else
-//                                       resp.redirect('/webadmin/listAllCategories');
-//                                       //resp.json({  product :  product});
-//
-//                                     });//save the object
-//                             }
-//                         });
-//
-//
-// });
+Router.get('/addproductToCat/:catId',function(req,resp,next){
+  //resp.json({msg:"add"});
+  //console.log((req.params.catId));
+  categoryDataModel.findOne({_id:req.params.catId},function(err,cat){
+      //console.log(cat.Ename);
+      resp.render("content/addproducttocategory.ejs",{cat:cat});
+  })
+
+});
+//add product to category
+Router.post("/addproductToCat/:catId",uploadMid.any(),function(req,resp){
+
+    //var contact = req.body.contact;
+    var imgs = [];
+
+
+        // req.checkBody('name','name is empty').notEmpty();
+        // req.checkBody('desc','description is empty').notEmpty();
+        // req.checkBody('price','price is empty').notEmpty();
+        // req.checkBody('hotelName','hotel name is empty').notEmpty();
+        // let errors = req.validationErrors();
+        // if(errors){
+        //   resp.redirect('/umrah/addUmrah');
+        //   // return resp.status(409).json({
+        //   //   message:"enter your data"
+        //   // });
+        // }
+        //else{
+
+        var productimg = [];
+          if (req.files.length > 0){
+            for(var i=0 ; i < req.files.length ; i++ ){
+              ext=req.files[i].originalname;
+              ext2=ext.split('.');
+              fs.renameSync(req.files[i].path,req.files[i].destination+"/"+req.files[i].filename+'.'+ext2[1] );
+              productimg.push(req.files[i].filename+'.'+ext2[1]);
+
+            }//end for
+          }// end if
+
+           productModel.find({Aname:req.body.Aname , Ename:req.body.Ename}, function(err, products) {
+                            //resp.json({   omraTrips: omraTrips});
+                            if(products.length > 0){
+                              resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
+                              //resp.json({ msg : "duplicate omra trip" });
+                            }else{
+                              var product = new productModel({
+                                Ename:req.body.Ename,
+                                Aname:req.body.Aname,
+                                modelnumber:req.body.modelnumber,
+                                brandArabic:req.body.brandArabic,
+                                brandEnglish:req.body.brandEnglish,
+                                price1:req.body.price1,
+                                price2:req.body.price2,
+                                imgs:productimg,
+                                catId:req.params.catId,
+                                discount:req.body.discount,
+                                discriptionEnglish:req.body.discriptionEnglish,
+                                discriptionArabic:req.body.discriptionArabic,
+                                tagsArabic:req.body.tagsArabic,
+                                tagsEnglish:req.body.tagsEnglish,
+                                freeshipping:req.body.freeshipping,
+                                heighlightEnglish:req.body.heighlightEnglish,
+                                heighlightArabic:req.body.heighlightArabic,
+                                specificationEnglish:req.body.specificationEnglish,
+                                specificationArabic:req.body.specificationArabic,
+                                quantity:req.body.quantity,
+                                status:req.body.status,
+                                time:Date.now()
+                              });//object of product
+                              product.save(function(err) {
+                                    if(err){
+                                        resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
+                                        //console.log(err);
+                                        return;
+                                      }else
+                                      resp.redirect('/webadmin/listAllCategories');
+                                      //resp.json({  product :  product});
+
+                                    });//save the object
+                            }
+                        });
+
+
+});
 
 Router.get('/getstart',function(req,resp,next){
   resp.json({msg:"start"});
