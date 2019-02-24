@@ -13,27 +13,27 @@
                                     <thead>
                                       <tr>
                                         <th>الاقسام</th>
-                             
+
                                       </tr>
                                     </thead>
                                     <tbody>
                                       <%data.forEach(function(category){ %>
                                       <tr>
-                             
+
                                         <td>
                                           <button   class="button button2" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
                                           <!-- <ul id="myList">
-                                           
-                                           
+
+
                                          </ul> -->
                                         </td>
                                         <td>
-                                          <a href=""> تعديل </a>
-                                          <a href=""> حذف </a>
+                                          <a href="/webadmin/editCategory/<%=category. _id%>"> تعديل </a>
+                                          <a href="/webadmin/deleteCategory/<%=category. _id%>"> حذف </a>
                                         </td>
                                       </tr>
                                       <%});%>
-                             
+
                                     </tbody>
                                   </table>
 
@@ -50,37 +50,37 @@
 
     </div>
     <script type="text/javascript">
- 
+
       $(document).ready(function(){
-       
+
         $('body').on('click', 'button',function(){
           console.log("button");
           var x = $(this).val();
           console.log(x);
           var btn = $(this);
-          
+
           $.ajax({
             type:"GET",
-            url:"https://testmatgary.herokuapp.com/category/subcategories/"+x,
+            url:"http://localhost:8090/category/subcategories/"+x,
             dataType:"json",
             success:function(data){
               if(data["data"].length>0){
                 var $ul= $('<ul/>', { class: 'myul' })
                 for(var i=0;i<data["data"].length;i++){
                   var test = {
-                    "value": data["data"][i]._id ,
+                    value: data["data"][i]._id ,
                     class:"button button2",
                      type:"button",
                      name:"button"
-                        
+
                       };
                       var $butt = $("<button>", test);
                       $butt.html(data["data"][i].Aname);
-                      
+
                       $li= $('<li>', { class: 'myli'  });
-                      $aedit= $('<a>', { class: 'myaedit' ,href:"" });
+                      $aedit= $('<a>', { class: 'myaedit' ,href:"/webadmin/editCategory/"+data["data"][i]._id });
                       $aedit.html(" تعديل " );
-                      $adelete= $('<a>', { class: 'myadelete',href:"" });
+                      $adelete= $('<a>', { class: 'myadelete',href:"/webadmin/deleteCategory/"+data["data"][i]._id});
                       $adelete.html("حذف ");
                       $li.append($aedit);
                       $li.append($adelete);
@@ -94,11 +94,11 @@
                     // var node = document.createElement("button");
                     // var textnode = document.createTextNode(data["data"][i].Aname);
                     // node.appendChild(textnode);
-                    
+
                     // btn.after( node );
 
 
-                   
+
                     btn.attr("disabled", true);
                 }
                   //alert(data["data"][0].Ename);
@@ -110,7 +110,7 @@
 
           });
         })
-      
+
 
       });
     </script>

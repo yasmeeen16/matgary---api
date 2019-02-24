@@ -53,17 +53,17 @@ server.use('/authVendor',AuthRoutsVendor);
 var webAuthAdminRouts=require('./controller/webAuthAdmin');
 server.use('/authadmin',webAuthAdminRouts);
 
-server.use(function(req,resp,next){
-    if(!(req.session.email && req.session.password && req.session.status=="admin")){
-        resp.redirect('/authadmin/login');
-    }
-    else{
-      next();
-    }
-});
+// server.use(function(req,resp,next){
+//     if(!(req.session.email && req.session.password && req.session.status=="admin")){
+//         resp.redirect('/authadmin/login');
+//     }
+//     else{
+//       next();
+//     }
+// });
 
 var webAdminRouts=require('./controller/webadmin');
-server.use('/admin', webAdminRouts);
+server.use('/webadmin', webAdminRouts);
 
 
 server.listen(PORT,function(){

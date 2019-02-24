@@ -1,0 +1,51 @@
+<%include ../layout/header.ejs%>
+<div class="main-panel">
+          <div class="content">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="card">
+
+                              <div class="content table-responsive table-full-width">
+                                  <table class="table">
+                                      <a id="add" href="/webadmin/addoffer">اضافه عرض</a>
+                                      <tbody>
+                                        <%offers.forEach(function(offer){ %>
+                                          <tr>
+                                              <td>
+                                                  <div class="product">
+                                                      <div class="product-img"><img style="  border: 1px solid #ddd;  border-radius: 4px;padding: 5px;width: 500px!important;  height: 150px;border-radius: 5px;" src="/imgs/<%=offer.img%>"> </div>
+
+                                                  </div>
+                                              </td>
+
+
+                                              <td>
+                                                  <p style="font-weight: 600;font-size:18px;"><%=offer.name%></p>
+                                              </td>
+
+                                              <td>
+                                                <a href="/webadmin/deleteoffer/<%=offer._id%>">حذف</a>
+                                                <a href="/webadmin/editoffer/<%=offer._id%>">تعديل</a>
+                                                 <!-- <a><i class="fa fa-ellipsis-h fa-2x dot"></i></a>
+                                                  <ul class="little">
+                                                      <li><a>Edit</a></li>
+                                                      <li><a>Delete</a></li>
+
+                                                  </ul> -->
+                                              </td>
+
+                                          </tr>
+                                          <%});%>
+                                      </tbody>
+                                  </table>
+
+                              </div>
+                          </div>
+                      </div>
+
+
+                  </div>
+              </div>
+          </div>
+<%include ../layout/footer.ejs%>

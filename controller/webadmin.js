@@ -24,7 +24,7 @@ var uploadMid = multer({dest:"./public/imgs"});
 //
 // ////////////////////////////////////
 Router.get('/home',function(req,resp,next){
-  
+
 
     categoryDataModel.find({parent:null},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
       //resp.render("content/listCat.ejs",{  categories:  categories});
@@ -51,7 +51,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
    }
 // //resp.json(req.file)
   if(!img){
-    resp.redirect("/admin/addCategory");
+    resp.redirect("/webadmin/addCategory");
     //resp.json({msg:"upload your img "})
   }else{
   req.checkBody('Ename','english name is empty').notEmpty();
@@ -60,7 +60,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
   let errors = req.validationErrors();
   if(errors){
     //resp.json(errors);
-    resp.redirect("/admin/addCategory");
+    resp.redirect("/webadmin/addCategory");
   }else{
 
 
@@ -76,7 +76,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
                             if(category.length > 0){
                               //resp.json({ msg : "duplicate category" });
-                              resp.redirect("/admin/addCategory");
+                              resp.redirect("/webadmin/addCategory");
                             }else{
                               var myCategory = new categoryDataModel({
                                 Ename:req.body.Ename,
@@ -87,11 +87,75 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
                               });
                               myCategory.save(function(err,doc){
                                 if(err){
-                                  resp.redirect("/admin/addCategory");
+                                  resp.redirect("/webadmin/addCategory");
                                   //resp.json(err);
                               }else{
                                   console.log("saved")
-                                  resp.redirect("/admin/home");
+                                  resp.redirect("/webadmin/home");
+                              }
+                              });
+                            }
+                          });
+                  }
+                }
+});
+
+Router.get('/offers',function(req,resp,next){
+  //resp.json({msg:"add"});
+    offerModel.find({}, function(err, offers) {
+      resp.render("content/offer.ejs",{offers:offers});
+    });
+
+});
+Router.get('/addOffer',function(req,resp,next){
+  //resp.json({msg:"add"});
+  resp.render("content/addoffer.ejs");
+});
+Router.post('/addOffer',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+
+//   var Ename = req.body.Ename;
+//   var Aname = req.body.Aname;
+   var img = req.file;
+// //resp.json(req.file)
+  if(!img){
+    resp.redirect("/webadmin/addOffer");
+    //resp.json({msg:"upload your img "})
+  }else{
+  req.checkBody('name','english name is empty').notEmpty();
+  let errors = req.validationErrors();
+  if(errors){
+    //resp.json(errors);
+    resp.redirect("/webadmin/addOffer");
+  }else{
+
+
+                ext=img.originalname;
+                ext2=ext.split('.');
+                console.log(img.path);
+                console.log(img.destination);
+                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                console.log(img.path);
+                img = req.file.filename+'.'+ext2[1];
+                console.log(img);
+
+      offerModel.find({name:req.body.name}, function(err, offer) {
+                            if(offer.length > 0){
+                              //resp.json({ msg : "duplicate category" });
+                              resp.redirect("/webadmin/addOffer");
+                            }else{
+                              var myOffer = new offerModel({
+                                name:req.body.name,
+                                img:img,
+                                time:new Date()
+                              });
+                              myOffer.save(function(err,doc){
+                                if(err){
+                                  //resp.redirect("/webadmin/addOffer");
+                                  resp.json(err);
+                              }else{
+                                  console.log("saved")
+                                  resp.redirect("/webadmin/offers");
+                                  //resp.json(doc);
                               }
                               });
                             }
@@ -101,8 +165,71 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 });
 
 
+Router.get('/deleteoffer/:id',function(req,resp,next){
 
-// var categoryModel = mongoose.model("Category");
+  offerModel.remove({_id:req.params.id}, function(err, vendors) {
+    resp.redirect("/webadmin/offers");
+  });
+
+});
+Router.get('/editoffer/:id',function(req,resp,next){
+
+  offerModel.findOne({_id:req.params.id}, function(err, offer) {
+    resp.render("content/editoffer.ejs",{offer:offer});
+  });
+
+});
+Router.post('/editOffer/:id',uploadMid.single('img'),function(req,resp,next){
+
+  var img = req.file;
+
+               ext=img.originalname;
+               ext2=ext.split('.');
+               console.log(img.path);
+               console.log(img.destination);
+               fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+               console.log(img.path);
+               img = req.file.filename+'.'+ext2[1];
+               console.log(img);
+
+  offerModel.update({_id:req.params.id},{name:req.body.name,img:img}, function(err, offer) {
+    resp.redirect("/webadmin/offers");
+  });
+
+
+});
+
+
+Router.get('/vendors',function(req,resp,next){
+  //resp.json({msg:"add"});
+    vendorDataModel.find({}, function(err, vendors) {
+      resp.render("content/vendordata.ejs",{vendors:vendors});
+    });
+
+});
+Router.get('/activevendors/:id',function(req,resp,next){
+
+    vendorDataModel.update({_id:req.params.id},{Status:1}, function(err, vendors) {
+      resp.redirect("/webadmin/vendors");
+    });
+
+});
+Router.get('/unactivevendors/:id',function(req,resp,next){
+
+  vendorDataModel.update({_id:req.params.id},{Status:0}, function(err, vendors) {
+    resp.redirect("/webadmin/vendors");
+  });
+
+});
+
+Router.get('/allproducts',function(req,resp,next){
+    productModel.find({}, function(err, products) {
+                    //resp.json({  products: products});
+                      resp.render("content/table.ejs",{products:products});
+                  });
+});
+
+ var categoryModel = mongoose.model("Category");
 // Router.get('/',function(req,resp,next){
 //
 //   categoryModel.find({}, function(err, categories) {
@@ -129,61 +256,61 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 //
 
 // /////////////////////////////////My Project////////////////////////////////////////
-// Router.get('/editCategory/:catId',function(req,resp,next){
-//
-//   categoryModel.findOne({_id:req.params.catId}, function(err, category) {
-//     //console.log(categories[0].img);
-//     resp.render("content/editcat.ejs",{category:category});
-//                     //resp.render("content/listCat.ejs",{  categories:  categories});
-//                     //resp.json({  categories:  categories});
-//                 });
-//
-//
-// });
-// Router.get('/deleteCategory/:id',function(req,resp,next){
-//
-//   categoryModel.remove({_id:req.params.id}, function(err, vendors) {
-//     resp.redirect("/webadmin/listAllCategories");
-//   });
-//
-// });
-//
-//   Router.post('/editCategory/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
-//     //resp.json(req.file);
-//     //   var Ename = req.body.Ename;
-//     //   var Aname = req.body.Aname;
-//        var img = req.file;
-//     // //resp.json(req.file)
-//       if(!img){
-//         resp.redirect("/webadmin/listAllCategories");
-//         //resp.json({msg:"upload your img "})
-//       }else{
-//       req.checkBody('Ename','english name is empty').notEmpty();
-//       req.checkBody('Aname','arabic name is empty').notEmpty();
-//
-//       let errors = req.validationErrors();
-//       if(errors){
-//         //resp.json(errors);
-//         resp.redirect("/webadmin/listAllCategories");
-//       }else{
-//
-//
-//                     ext=img.originalname;
-//                     ext2=ext.split('.');
-//                     console.log(img.path);
-//                     console.log(img.destination);
-//                     fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-//                     console.log(img.path);
-//                     img = req.file.filename+'.'+ext2[1];
-//                     console.log(img);
-//
-//           categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img}, function(err, category) {
-//                     resp.redirect("/webadmin/listAllCategories");
-//                               });
-//                       }
-//                     }
-//     });
-//
+Router.get('/editCategory/:catId',function(req,resp,next){
+
+  categoryModel.findOne({_id:req.params.catId}, function(err, category) {
+    //console.log(categories[0].img);
+    resp.render("content/editcat.ejs",{category:category});
+                    //resp.render("content/listCat.ejs",{  categories:  categories});
+                    //resp.json({  categories:  categories});
+                });
+
+
+});
+Router.get('/deleteCategory/:id',function(req,resp,next){
+
+  categoryModel.remove({_id:req.params.id}, function(err, vendors) {
+    resp.redirect("/webadmin/home");
+  });
+
+});
+
+  Router.post('/editCategory/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+    //resp.json(req.file);
+    //   var Ename = req.body.Ename;
+    //   var Aname = req.body.Aname;
+       var img = req.file;
+    // //resp.json(req.file)
+      if(!img){
+        resp.redirect("/webadmin/listAllCategories");
+        //resp.json({msg:"upload your img "})
+      }else{
+      req.checkBody('Ename','english name is empty').notEmpty();
+      req.checkBody('Aname','arabic name is empty').notEmpty();
+
+      let errors = req.validationErrors();
+      if(errors){
+        //resp.json(errors);
+        resp.redirect("/webadmin/listAllCategories");
+      }else{
+
+
+                    ext=img.originalname;
+                    ext2=ext.split('.');
+                    console.log(img.path);
+                    console.log(img.destination);
+                    fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                    console.log(img.path);
+                    img = req.file.filename+'.'+ext2[1];
+                    console.log(img);
+
+          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img}, function(err, category) {
+                    resp.redirect("/webadmin/home");
+                              });
+                      }
+                    }
+    });
+
 // //all sub categories bage
 // Router.get('/ListOfsubCategory',function(req,resp,next){
 //
@@ -209,15 +336,7 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 //
 // });
 // //list all products
-// Router.get('/allproducts',function(req,resp,next){
-//
-//  //console.log(catId);
-//     productModel.find({}, function(err, products) {
-//                     //resp.json({  products: products});
-//                       resp.render("content/table.ejs",{products:products});
-//                   });
-//
-// });
+
 // ///add sub categoryId
 // Router.post('/addsubCategory',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
 // //console.log((req.params.catId));
@@ -452,123 +571,6 @@ Router.post('/addCategory',[BodyParserMid,uploadMid.single('img')],function(req,
 //                                     });//save the object
 //                             }
 //                         });
-//
-//
-// });
-// Router.get('/offers',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//     offerModel.find({}, function(err, offers) {
-//       resp.render("content/offer.ejs",{offers:offers});
-//     });
-//
-// });
-// Router.get('/addOffer',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//   resp.render("content/addoffer.ejs");
-// });
-// Router.post('/addOffer',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
-//
-// //   var Ename = req.body.Ename;
-// //   var Aname = req.body.Aname;
-//    var img = req.file;
-// // //resp.json(req.file)
-//   if(!img){
-//     resp.redirect("/webadmin/addOffer");
-//     //resp.json({msg:"upload your img "})
-//   }else{
-//   req.checkBody('name','english name is empty').notEmpty();
-//   let errors = req.validationErrors();
-//   if(errors){
-//     //resp.json(errors);
-//     resp.redirect("/webadmin/addOffer");
-//   }else{
-//
-//
-//                 ext=img.originalname;
-//                 ext2=ext.split('.');
-//                 console.log(img.path);
-//                 console.log(img.destination);
-//                 fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-//                 console.log(img.path);
-//                 img = req.file.filename+'.'+ext2[1];
-//                 console.log(img);
-//
-//       offerModel.find({name:req.body.name}, function(err, offer) {
-//                             if(offer.length > 0){
-//                               //resp.json({ msg : "duplicate category" });
-//                               resp.redirect("/webadmin/addOffer");
-//                             }else{
-//                               var myOffer = new offerModel({
-//                                 name:req.body.name,
-//                                 img:img,
-//                                 time:new Date()
-//                               });
-//                               myOffer.save(function(err,doc){
-//                                 if(err){
-//                                   //resp.redirect("/webadmin/addOffer");
-//                                   resp.json(err);
-//                               }else{
-//                                   console.log("saved")
-//                                   resp.redirect("/webadmin/offers");
-//                                   //resp.json(doc);
-//                               }
-//                               });
-//                             }
-//                           });
-//                   }
-//                 }
-// });
-// Router.get('/vendors',function(req,resp,next){
-//   //resp.json({msg:"add"});
-//     vendorDataModel.find({}, function(err, vendors) {
-//       resp.render("content/vendordata.ejs",{vendors:vendors});
-//     });
-//
-// });
-// Router.get('/activevendors/:id',function(req,resp,next){
-//
-//     vendorDataModel.update({_id:req.params.id},{Status:1}, function(err, vendors) {
-//       resp.redirect("/webadmin/vendors");
-//     });
-//
-// });
-// Router.get('/unactivevendors/:id',function(req,resp,next){
-//
-//   vendorDataModel.update({_id:req.params.id},{Status:0}, function(err, vendors) {
-//     resp.redirect("/webadmin/vendors");
-//   });
-//
-// });
-// Router.get('/deleteoffer/:id',function(req,resp,next){
-//
-//   offerModel.remove({_id:req.params.id}, function(err, vendors) {
-//     resp.redirect("/webadmin/offers");
-//   });
-//
-// });
-// Router.get('/editoffer/:id',function(req,resp,next){
-//
-//   offerModel.findOne({_id:req.params.id}, function(err, offer) {
-//     resp.render("content/editoffer.ejs",{offer:offer});
-//   });
-//
-// });
-// Router.post('/editOffer/:id',uploadMid.single('img'),function(req,resp,next){
-//
-//   var img = req.file;
-//
-//                ext=img.originalname;
-//                ext2=ext.split('.');
-//                console.log(img.path);
-//                console.log(img.destination);
-//                fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-//                console.log(img.path);
-//                img = req.file.filename+'.'+ext2[1];
-//                console.log(img);
-//
-//   offerModel.update({_id:req.params.id},{name:req.body.name,img:img}, function(err, offer) {
-//     resp.redirect("/webadmin/offers");
-//   });
 //
 //
 // });

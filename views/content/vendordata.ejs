@@ -1,0 +1,39 @@
+<%include ../layout/header.ejs%>
+
+<div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table">
+                                        <thead>
+                                            <th>الاسم </th>
+                                            <th>الايميل</th>
+                                            <th>نشط</th>
+                                            <th>غير نشط</th>
+
+
+                                        </thead>
+                                        <tbody>
+                                            <%vendors.forEach(function(vendor){ %>
+                                                <tr>
+                                                  <td><%=vendor.name%></td>
+                                                  <td><%=vendor.email%></td>
+                                                  <td><a href="/webadmin/activevendors/<%=vendor._id%>">active</a></td>
+                                                  <td><a href="/webadmin/unactivevendors/<%=vendor._id%>">not active</a></td>
+                                                </tr>
+                                            <%});%>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<%include ../layout/footer.ejs%>
