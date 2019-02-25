@@ -21,7 +21,7 @@ var offerModel = mongoose.model("offer");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-//
+
 // ////////////////////////////////////
 Router.get('/home',function(req,resp,next){
 
@@ -257,14 +257,15 @@ Router.get('/allproducts',function(req,resp,next){
 
 // /////////////////////////////////My Project////////////////////////////////////////
 Router.get('/editCategory/:catId',function(req,resp,next){
+  categoryDataModel.find({},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
+
 
   categoryModel.findOne({_id:req.params.catId}, function(err, category) {
     //console.log(categories[0].img);
-    resp.render("content/editcat.ejs",{category:category});
-                    //resp.render("content/listCat.ejs",{  categories:  categories});
-                    //resp.json({  categories:  categories});
-                });
+    resp.render("content/editcat.ejs",{data:cats,category:category});
 
+                });
+              });
 
 });
 Router.get('/deleteCategory/:id',function(req,resp,next){
@@ -280,9 +281,13 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
     //   var Ename = req.body.Ename;
     //   var Aname = req.body.Aname;
        var img = req.file;
+       var parent;
+       if(req.body.parent=="0"){parent=null;}else{
+         parent=req.body.parent;
+       }
     // //resp.json(req.file)
       if(!img){
-        resp.redirect("/webadmin/listAllCategories");
+        resp.redirect("/webadmin/home");
         //resp.json({msg:"upload your img "})
       }else{
       req.checkBody('Ename','english name is empty').notEmpty();
@@ -291,7 +296,7 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
       let errors = req.validationErrors();
       if(errors){
         //resp.json(errors);
-        resp.redirect("/webadmin/listAllCategories");
+        resp.redirect("/webadmin/home");
       }else{
 
 
@@ -304,7 +309,7 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
                     img = req.file.filename+'.'+ext2[1];
                     console.log(img);
 
-          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img}, function(err, category) {
+          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img, parent: parent}, function(err, category) {
                     resp.redirect("/webadmin/home");
                               });
                       }

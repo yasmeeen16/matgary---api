@@ -1,0 +1,142 @@
+<%include ../layout/header.ejs%>
+<div class="main-panel">
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                          <form class="" action="/webvendor/addproductToCat" method="post" enctype="multipart/form-data">
+                            <div class=" row data-container">
+                                <div class="col-xs-offset-3 col-xs-9 product-image">
+                                    <div class="file-upload">
+                                        <label for="upload" class="file-upload__label"> <img style="width:60%;    border-radius: 50%;" title="choose images" src="/assets/img/upload.jpeg" alt=""> </label>
+                                        <input id="upload" class="file-upload__input" type="file" name="imgs" multiple required>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6" style="float: right">
+
+                                    <ul class="small-data">
+
+                                        <li>
+                                            <div class="small-data-item">
+                                                <input class="data-input" name="Aname" placeholder="الاسم بالعربي" required>
+                                                <input class="data-input" name="Ename" placeholder="الاسم بالانجليزي" required>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="small-data-item">
+                                                <input class="data-input" name="brandArabic" required placeholder="الماركه بالعربي">
+                                                <input class="data-input" name="brandEnglish" required placeholder="الماركه بالانجليزي">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="small-data-item">
+                                                <input class="data-input" name="price1" required placeholder="السعر قبل الخصم">
+                                                <input class="data-input" name="price2" required placeholder="السعر بعد الخصم">
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="small-data-item">
+                                                <input class="data-input" name="modelnumber" required placeholder="رقم الموديل">
+
+                                            </div>
+                                        </li>
+
+                                         <li>
+
+                                            <div>
+
+                                                <input class="data-input" name="specificationArabic" required placeholder="تفاصيل المنتج بالعربي">
+                                                <input class="data-input" name="specificationEnglish" required placeholder="تفاصيل المنتج بالانجليزى">
+                                            </div>
+                                        </li>
+                                        <li style="display: block">
+                                            <div class="small-data-item">
+                                              <label for="">الحاله</label>
+                                              <select class="data-input" name="status">
+                                                <option value="1">متاحه</option>
+                                                <option value="0">غير متاحه</option>
+
+                                              </select>
+                                              
+                                                <input class="data-input" name="quantity" required placeholder="الكميه" style="width: 100%;">
+                                                <input class="data-input" name="discount" required placeholder="الخصم" style="width: 100%">
+
+
+                                                <label for="">امكانيه التوصيل</label>
+                                                <select class="data-input" name="freeshipping">
+                                                  <option value="1">yes</option>
+                                                  <option value="0">no</option>
+
+                                                </select>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                                <div class="col-xs-6">
+
+                                    <ul class="small-data">
+                                        <li>
+                                            <div class="small-data-item">
+                                                <textarea rows="4" class="desc text-right" name="discriptionArabic" required placeholder="الوصف بالعربي" ></textarea>
+                                                <textarea rows="4" class="desc text-right" name="discriptionEnglish" required placeholder="الوصف بالانجليزى"></textarea>
+
+                                            </div>
+                                        </li>
+                                        <li>
+
+                                            <div>
+                                                 <textarea rows="4" class="desc text-right" name="heighlightArabic" required placeholder="AR highlight"></textarea>
+                                                <textarea rows="4" class="desc text-right" name="heighlightEnglish" required placeholder="EN highlight"></textarea>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="small-data-item">
+                                                <textarea rows="4" class="desc text-right" name="tagsArabic" required placeholder="AR tags"></textarea>
+                                                <textarea rows="4" class="desc text-right" name="tagsEnglish" required placeholder="EN tags"></textarea>
+                                            </div>
+                                        </li>
+
+
+
+
+                                    </ul>
+
+                                </div>
+                                <div class="small-data-item">
+
+                                            <select name="catId">
+                                                    <option value="0">اختر القسم الرئيسى</option>
+                                                    <%cat.forEach(function(cat){ %>
+                                                        <option value="<%=cat._id %>"><%=cat.Aname %></option>
+
+                                                    <%});%>
+                                            </select>
+
+
+                                                <select name="offerId">
+                                                        <option value="0">اختر العرض</option>
+                                                        <%offers.forEach(function(offer){ %>
+                                                            <option value="<%=offer._id %>"><%=offer.name %></option>
+
+                                                        <%});%>
+                                                </select>
+
+                                        </div>
+                                        <div class=" form-group">
+                                            <button type="submit" class="add form-control">اضافه القسم</button>
+                                        </div>
+
+
+                            </div>
+
+                          </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <%include ../layout/footer.ejs%>

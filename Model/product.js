@@ -21,6 +21,10 @@ var product = new Schema ({
          type:Schema.ObjectId,
          ref:"Category"
      },
+  offerId:{
+        type:Schema.ObjectId,
+        ref:"offer"
+      },
   subcatId:{
             type:Schema.ObjectId,
             ref:"subCategory"

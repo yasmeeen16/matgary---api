@@ -53,8 +53,11 @@ server.use('/authVendor',AuthRoutsVendor);
 var webAuthAdminRouts=require('./controller/webAuthAdmin');
 server.use('/authadmin',webAuthAdminRouts);
 
+var webAuthVendorRouts=require('./controller/webAuthvendor');
+server.use('/wauthvendor',webAuthVendorRouts);
+
 // server.use(function(req,resp,next){
-//     if(!(req.session.email && req.session.password && req.session.status=="admin")){
+//     if(!(req.session.status=="admin")){
 //         resp.redirect('/authadmin/login');
 //     }
 //     else{
@@ -65,6 +68,8 @@ server.use('/authadmin',webAuthAdminRouts);
 var webAdminRouts=require('./controller/webadmin');
 server.use('/webadmin', webAdminRouts);
 
+var webVendorRouts=require('./controller/webVendor');
+server.use('/webvendor', webVendorRouts);
 
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
