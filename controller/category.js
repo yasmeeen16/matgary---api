@@ -167,6 +167,7 @@ Router.get('/getparent/:catId',function(req,resp,next){
 
  //console.log(catId);
     categoryDataModel.findOne({_id:req.params.catId}, function(err, cat) {
+      if(cat){
       categoryDataModel.find({_id:cat.parent},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cat) {
 
           resp.json({data:cat});
@@ -174,7 +175,9 @@ Router.get('/getparent/:catId',function(req,resp,next){
 
       });
 
-
+    }else{
+      resp.json({msg:"category not found"});
+    }
 
     });
 
