@@ -94,13 +94,13 @@ Router.post("/addproductToCat",uploadMid.any(),function(req,resp){
 });
 
 
-// Router.get('/addProduct/:subcatId',function(req,resp,next){
-//         //console.log(req.params.subcatId);
-//         subCategoryModel.findOne({_id:req.params.subcatId }, function(err, category) {
-//             //resp.json({category:category});
-//             resp.render("content/addproduct.ejs",{category:category});
-//         })
-// });
+Router.get('/Products/:offerId',function(req,resp,next){
+        //console.log(req.params.subcatId);
+        productModel.find({offerId:req.params.offerId }, function(err, product) {
+            resp.json({product:product});
+            //resp.render("content/addproduct.ejs",{category:category});
+        })
+});
 
 // Router.get('/addProduct/:subcatId',function(req,resp,next){
 //         //console.log(req.params.subcatId);
