@@ -66,9 +66,10 @@ Router.get('/register',function(req,resp){
 Router.post('/register',BodyParserMid,function(req,resp,next){
     adminModel.findOne({ email: req.body.email }, function(err, user) {
         if(user){
-          return resp.status(409).json({
-            message:"email is existed"
-          });
+          // return resp.status(409).json({
+          //   message:"email is existed"
+          // });
+          resp.redirect("/authadmin/register")
         }else{
           var name = req.body.name;
           var email = req.body.email;
@@ -103,7 +104,7 @@ Router.post('/register',BodyParserMid,function(req,resp,next){
                   }
                   //const jsontoken = jwt.sign({client: client},'mysecret-key');
                         //resp.json({ admin: admin});
-                        resp.redirect("/webadmin/home");
+                        resp.redirect("/webadmin/admins");
                 });
           }
         }
