@@ -15,8 +15,9 @@ var categoryDataModel = mongoose.model("Category");
 var   subCategoryModel= mongoose.model("subCategory");
 var vendorDataModel=mongoose.model("vendorData");
 require("../Model/product");
+require("../Model/vendorData");
 var productModel = mongoose.model("product");
-
+var vendorModel = mongoose.model("vendorData");
 var offerModel = mongoose.model("offer");
 
 var multer = require("multer");//to upload file
@@ -25,6 +26,10 @@ var uploadMid = multer({dest:"./public/imgs"});
 
 
 Router.get('/addproductToCat',function(req,resp,next){
+
+  if(!(req.session.status=="vendor")){
+      resp.redirect('/wauthvendor/login');
+  }else {
   //resp.json({msg:"add"});
   //console.log((req.params.catId));
   offerModel.find({},function(err,offers){
@@ -33,44 +38,25 @@ Router.get('/addproductToCat',function(req,resp,next){
       resp.render("content/addproducttocategory.ejs",{cat:cat,offers:offers});
   });
 });
+}
 });
 //add product to category
-Router.post("/addproductToCat",uploadMid.any(),function(req,resp){
-
-    //var contact = req.body.contact;
+Router.post("/addproductToCat",BodyParserMid,function(req,resp){
+  var vendorId;
+  if(!(req.session.status=="vendor")){
+      resp.redirect('/wauthvendor/login');
+  }else {
+    vendorModel.findOne({email:req.session.email},{_id:1},function(err,res){
+      vendorId=res._id;
+    })
     var imgs = [];
-
-
-        // req.checkBody('name','name is empty').notEmpty();
-        // req.checkBody('desc','description is empty').notEmpty();
-        // req.checkBody('price','price is empty').notEmpty();
-        // req.checkBody('hotelName','hotel name is empty').notEmpty();
-        // let errors = req.validationErrors();
-        // if(errors){
-        //   resp.redirect('/umrah/addUmrah');
-        //   // return resp.status(409).json({
-        //   //   message:"enter your data"
-        //   // });
-        // }
-        //else{
-
-        var productimg = [];
-          if (req.files.length > 0){
-            for(var i=0 ; i < req.files.length ; i++ ){
-              ext=req.files[i].originalname;
-              ext2=ext.split('.');
-              fs.renameSync(req.files[i].path,req.files[i].destination+"/"+req.files[i].filename+'.'+ext2[1] );
-              productimg.push(req.files[i].filename+'.'+ext2[1]);
-
-            }//end for
-          }// end if
+    var str = req.body.url;
+    var res = str.split(",");
+    //resp.json({res:res});
+    imgs=res;
 
            productModel.find({Aname:req.body.Aname , Ename:req.body.Ename}, function(err, products) {
-                            //resp.json({   omraTrips: omraTrips});
-                            if(products.length > 0){
-                              resp.redirect("/webadmin/addproductToCat");
-                              //resp.json({ msg : "duplicate omra trip" });
-                            }else{
+
                               var product = new productModel({
                                 Ename:req.body.Ename,
                                 Aname:req.body.Aname,
@@ -79,7 +65,8 @@ Router.post("/addproductToCat",uploadMid.any(),function(req,resp){
                                 brandEnglish:req.body.brandEnglish,
                                 price1:req.body.price1,
                                 price2:req.body.price2,
-                                imgs:productimg,
+                                imgs:imgs,
+                                vendorId:vendorId,
                                 catId:req.body.catId,
                                 offerId:req.body.offerId,
                                 discount:req.body.discount,
@@ -102,13 +89,30 @@ Router.post("/addproductToCat",uploadMid.any(),function(req,resp){
                                         console.log(err);
                                         return;
                                       }else
-                                      //resp.redirect('/webadmin/listAllCategories');
-                                      resp.json({  product :  product});
+                                      resp.redirect('/webvendor/productvendor');
+                                      //resp.json({  product :  product});
 
                                     });//save the object
-                            }
-                        });
 
+                        });
+}
+
+});
+
+
+Router.get('/productvendor',function(req,resp,next){
+  if(!(req.session.status=="vendor")){
+      resp.redirect('/wauthvendor/login');
+  }else {
+    vendorModel.findOne({email:req.session.email},{_id:1},function(err,res){
+      //vendorId=res._id;
+      productModel.find({vendorId:res._id},{},function(err,products){
+          resp.render("content/productsvendor.ejs",{products:products});
+      })
+    })
+      //console.log(cat.Ename);
+
+    }
 
 });
 module.exports=Router;

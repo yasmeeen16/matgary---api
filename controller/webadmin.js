@@ -1,4 +1,5 @@
 var express = require('express');
+var server = express();
 var Router = express.Router();
 var BodyParser = require('body-parser');
 var expressValidato = require('express-validator');
@@ -21,27 +22,44 @@ var offerModel = mongoose.model("offer");
 
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
-
+// server.use(function(req,resp,next){
+//     if(!(req.session.status=="admin")){
+//         resp.redirect('/authadmin/login');
+//     }
+//     else{
+//       next();
+//     }
+// });
 // ////////////////////////////////////
 Router.get('/home',function(req,resp,next){
+
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
 
 
     categoryDataModel.find({parent:null},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
       //resp.render("content/listCat.ejs",{  categories:  categories});
       resp.render('content/home.ejs',{data:cats});
   });
-
+}
 });
 
 
 Router.get('/addCategory',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
   categoryDataModel.find({},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
   resp.render("content/addCategory.ejs",{data:cats});
   });
+}
 });
 
 Router.post('/addCategory',BodyParserMid,function(req,resp,next){
-
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
 //   var Ename = req.body.Ename;
 //   var Aname = req.body.Aname;
   // var img = req.file;
@@ -98,20 +116,35 @@ Router.post('/addCategory',BodyParserMid,function(req,resp,next){
                           });
                   }
   //              }
+}
 });
 
 Router.get('/offers',function(req,resp,next){
   //resp.json({msg:"add"});
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
     offerModel.find({}, function(err, offers) {
       resp.render("content/offer.ejs",{offers:offers});
     });
-
+}
 });
 Router.get('/addOffer',function(req,resp,next){
   //resp.json({msg:"add"});
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
+
   resp.render("content/addoffer.ejs");
+}
 });
 Router.post('/addOffer',BodyParserMid,function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
 
 //resp.json(req.body);
 //   var Ename = req.body.Ename;
@@ -164,71 +197,95 @@ Router.post('/addOffer',BodyParserMid,function(req,resp,next){
                           });
                   }
   //              }
+}
 });
 
 
 Router.get('/deleteoffer/:id',function(req,resp,next){
-
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
   offerModel.remove({_id:req.params.id}, function(err, vendors) {
     resp.redirect("/webadmin/offers");
   });
-
+}
 });
 Router.get('/editoffer/:id',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
 
   offerModel.findOne({_id:req.params.id}, function(err, offer) {
     resp.render("content/editoffer.ejs",{offer:offer});
   });
-
+}
 });
 Router.post('/editOffer/:id',uploadMid.single('img'),function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
+  // var img = req.file;
+  //
+  //              ext=img.originalname;
+  //              ext2=ext.split('.');
+  //              console.log(img.path);
+  //              console.log(img.destination);
+  //              fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+  //              console.log(img.path);
+  //              img = req.file.filename+'.'+ext2[1];
+  //              console.log(img);
 
-  var img = req.file;
-
-               ext=img.originalname;
-               ext2=ext.split('.');
-               console.log(img.path);
-               console.log(img.destination);
-               fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-               console.log(img.path);
-               img = req.file.filename+'.'+ext2[1];
-               console.log(img);
-
-  offerModel.update({_id:req.params.id},{name:req.body.name,img:img}, function(err, offer) {
+  offerModel.update({_id:req.params.id},{name:req.body.name,img:req.body.url}, function(err, offer) {
     resp.redirect("/webadmin/offers");
   });
 
-
+}
 });
 
 
 Router.get('/vendors',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
   //resp.json({msg:"add"});
     vendorDataModel.find({}, function(err, vendors) {
       resp.render("content/vendordata.ejs",{vendors:vendors});
     });
-
+}
 });
 Router.get('/activevendors/:id',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
 
     vendorDataModel.update({_id:req.params.id},{Status:1}, function(err, vendors) {
       resp.redirect("/webadmin/vendors");
     });
-
+}
 });
 Router.get('/unactivevendors/:id',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
 
   vendorDataModel.update({_id:req.params.id},{Status:0}, function(err, vendors) {
     resp.redirect("/webadmin/vendors");
   });
-
+}
 });
 
 Router.get('/allproducts',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else {
+
     productModel.find({}, function(err, products) {
                     //resp.json({  products: products});
                       resp.render("content/table.ejs",{products:products});
                   });
+                }
 });
 
  var categoryModel = mongoose.model("Category");
@@ -259,6 +316,9 @@ Router.get('/allproducts',function(req,resp,next){
 
 // /////////////////////////////////My Project////////////////////////////////////////
 Router.get('/editCategory/:catId',function(req,resp,next){
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
   categoryDataModel.find({},{_id:1,Aname:1,Ename:1,img:1,time:1}, function(err, cats) {
 
 
@@ -268,33 +328,39 @@ Router.get('/editCategory/:catId',function(req,resp,next){
 
                 });
               });
-
+}
 });
 Router.get('/deleteCategory/:id',function(req,resp,next){
-
+  if(!(req.session.status=="admin")){
+      resp.redirect('/authadmin/login');
+  }else{
   categoryModel.remove({_id:req.params.id}, function(err, vendors) {
     resp.redirect("/webadmin/home");
   });
-
+}
 });
 
   Router.post('/editCategory/:catId',[BodyParserMid,uploadMid.single('img')],function(req,resp,next){
+    if(!(req.session.status=="admin")){
+        resp.redirect('/authadmin/login');
+    }else {
+
     //resp.json(req.file);
     //   var Ename = req.body.Ename;
     //   var Aname = req.body.Aname;
-       var img = req.file;
+       // var img = req.file;
        var parent;
        if(req.body.parent=="0"){parent=null;}else{
          parent=req.body.parent;
        }
     // //resp.json(req.file)
-      if(!img){
-        resp.redirect("/webadmin/home");
-        //resp.json({msg:"upload your img "})
-      }else{
+      // if(!img){
+      //   resp.redirect("/webadmin/home");
+      //   //resp.json({msg:"upload your img "})
+      // }else{
       req.checkBody('Ename','english name is empty').notEmpty();
       req.checkBody('Aname','arabic name is empty').notEmpty();
-
+      req.checkBody('url','your image is empty').notEmpty();
       let errors = req.validationErrors();
       if(errors){
         //resp.json(errors);
@@ -302,20 +368,21 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
       }else{
 
 
-                    ext=img.originalname;
-                    ext2=ext.split('.');
-                    console.log(img.path);
-                    console.log(img.destination);
-                    fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
-                    console.log(img.path);
-                    img = req.file.filename+'.'+ext2[1];
-                    console.log(img);
+                    // ext=img.originalname;
+                    // ext2=ext.split('.');
+                    // console.log(img.path);
+                    // console.log(img.destination);
+                    // fs.renameSync(req.file.path,path.join(req.file.destination,req.file.filename+"."+ext2[1]  ));
+                    // console.log(img.path);
+                    // img = req.file.filename+'.'+ext2[1];
+                    // console.log(img);
 
-          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:img, parent: parent}, function(err, category) {
+          categoryDataModel.update({_id:req.params.catId},{Aname:req.body.Aname,Ename:req.body.Ename,img:req.body.url, parent: parent}, function(err, category) {
                     resp.redirect("/webadmin/home");
                               });
                       }
-                    }
+                  //  }
+                }
     });
 
 // //all sub categories bage

@@ -18,7 +18,9 @@
                             </div>
                         </div>
 
-
+                        <div id="gamediv">your imge
+                          <img id="myimg" src="" alt="">
+                        </div>
 
 
 
@@ -26,9 +28,9 @@
                                     <div class="form-group">
                                             <input class="form-control" name="name" placeholder="الاسم" value="<%= offer.name %>" required>
                                     </div>
-
+                                     <input type="text" id="url" name="url" value="" hidden >
                                         <div class=" form-group">
-                                            <button type="submit" class="add form-control">تعديل</button>
+                                            <button type="submit" id="submit_btn" class="add form-control">تعديل</button>
                                         </div>
                                 </div>
                         </div>
@@ -40,5 +42,6 @@
         </div>
     </div>
 </div>
-
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+<script src="/assets/js/file.js"></script>
 <%include ../layout/footer.ejs%>

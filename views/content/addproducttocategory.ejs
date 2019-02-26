@@ -1,18 +1,127 @@
-<%include ../layout/header.ejs%>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title> Category </title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/dashboard.css?v=1.4.0" rel="stylesheet" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <link href="/assets/css/myStyle.css" rel="stylesheet" />
+    <style >
+    img {
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px;
+          width: 150px!important;
+          height: 150px;
+          border-radius: 50%;
+        }
+
+      #add:link, #add:visited {
+              background-color: #f44336;
+              color: white;
+              padding: 14px 25px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              }
+
+              a:hover, a:active {
+              background-color: red;
+              }
+
+    </style>
+</head>
+
+<body>
+  <div class="wrapper">
+      <!-- Navigation -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header" style="float: right">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">
+                  <h1 class="text-center">متجري</h1>
+              </a>
+          </div>
+          <!-- Top Menu Items -->
+
+
+
+
+          <ul class="nav navbar-left top-nav">
+              <li>
+                  <a href="/webvendor/addproductToCat" class="btn btn-default">
+                    اضافه منتج
+                  </a>
+              </li>
+
+          </ul>
+          <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav side-nav">
+
+
+
+
+                  <li>
+                      <a href="/webvendor/productvendor">
+
+                          منتجاتى
+
+                          <i class="fa fa-money" aria-hidden="true"></i>
+                      </a>
+                  </li>
+
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </nav>
+
+
+
+
+
+
+
+
+
+
 <div class="main-panel">
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
 
                         <div class="col-xs-12">
-                          <form class="" action="/webvendor/addproductToCat" method="post" enctype="multipart/form-data">
+                          <form class="" action="/webvendor/addproductToCat" method="post" >
                             <div class=" row data-container">
                                 <div class="col-xs-offset-3 col-xs-9 product-image">
                                     <div class="file-upload">
                                         <label for="upload" class="file-upload__label"> <img style="width:60%;    border-radius: 50%;" title="choose images" src="/assets/img/upload.jpeg" alt=""> </label>
-                                        <input id="upload" class="file-upload__input" type="file" name="imgs" multiple required>
+                                        <input id="upload" class="file-upload__input" type="file" name="imgs" required>
                                     </div>
                                 </div>
+                                <div id="gamediv">your imgs</div>
+                                <textarea name="url" id="myUrl"  hidden></textarea>
+                                <p id="demo"></p>
                                 <div class="col-xs-6" style="float: right">
 
                                     <ul class="small-data">
@@ -59,7 +168,7 @@
                                                 <option value="0">غير متاحه</option>
 
                                               </select>
-                                              
+
                                                 <input class="data-input" name="quantity" required placeholder="الكميه" style="width: 100%;">
                                                 <input class="data-input" name="discount" required placeholder="الخصم" style="width: 100%">
 
@@ -127,7 +236,7 @@
 
                                         </div>
                                         <div class=" form-group">
-                                            <button type="submit" class="add form-control">اضافه القسم</button>
+                                            <button type="submit" id="submit_btn" class="add form-control">اضافه القسم</button>
                                         </div>
 
 
@@ -139,4 +248,6 @@
                     </div>
                 </div>
             </div>
-            <%include ../layout/footer.ejs%>
+            <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+            <script src="/assets/js/addproduct.js"></script>
+<%include ../layout/footer.ejs%>

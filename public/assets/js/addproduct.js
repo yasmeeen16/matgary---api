@@ -1,4 +1,3 @@
-
 /*jslint plusplus: true, evil: true/ //>> for (i++)
 global console, alert, prompt,Array*/
 // Initialize Firebase
@@ -18,13 +17,17 @@ document.getElementById("submit_btn").disabled = true;
 var storage = firebase.storage();
 console.log("firebase")
 var fileChooser = document.getElementById("upload");
-var pic;
 
-
+var urls=[];
+//document.getElementById("demo").innerHTML = urls;
+document.getElementById("myUrl").value = urls;
 // check state of chooser of image
 function uploadPic() {
-  document.getElementById("submit_btn").disabled = true;
-    pic = this.files[0];
+  pics=this.files;
+  // console.log(this.files[0]);
+  // console.log(this.files[1]);
+  for(var i=0;i<pics.length;i++){
+    var pic = this.files[i];
     console.log("success");
     var uploadTask = storage.ref().child("magary/" + new Date()+'.jpg').put(pic);
 
@@ -37,16 +40,28 @@ function uploadPic() {
     }, function () {
         uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
-            document.getElementById('url').value = downloadURL;
 
-            var myimg = document.getElementById("myimg");
-            myimg.src = downloadURL;
+            var src = document.getElementById("gamediv");
+              var img = document.createElement("img");
+              img.src = downloadURL;
+              src.appendChild(img);
+            urls.push(downloadURL)
 
-            document.getElementById("submit_btn").disabled = false;
+          //  document.getElementById("demo").innerHTML = urls;
+            document.getElementById("myUrl").value = urls;
+            //document.getElementById('url').value = JSON.stringify(urls);
+
+
+
 
 
         });
+        document.getElementById("submit_btn").disabled = false;
+
     });
+  }
+
+//  document.getElementById('url').value = JSON.stringify(urls);
 
 }
 window.fileChooser.onchange = uploadPic;

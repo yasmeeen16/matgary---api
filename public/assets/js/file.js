@@ -22,6 +22,7 @@ var pic;
 
 // check state of chooser of image
 function uploadPic() {
+  document.getElementById("submit_btn").disabled = true;
     pic = this.files[0];
     console.log("success");
     var uploadTask = storage.ref().child("magary/" + new Date()+'.jpg').put(pic);
@@ -36,6 +37,9 @@ function uploadPic() {
         uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
             document.getElementById('url').value = downloadURL;
+
+            var myimg = document.getElementById("myimg");
+            myimg.src = downloadURL;
 
 
             document.getElementById("submit_btn").disabled = false;
