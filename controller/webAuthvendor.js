@@ -26,7 +26,7 @@ Router.post('/login',BodyParserMid,function(req,resp){
         req.checkBody('password','password is empty').notEmpty();
         let errors = req.validationErrors();
         if(errors){
-          resp.redirect("/authvendor/login");
+          resp.redirect("/wauthvendor/login");
           // return resp.status(409).json({
           //   message:"enter your data"
           // });
@@ -49,10 +49,10 @@ Router.post('/login',BodyParserMid,function(req,resp){
                             //resp.json({ user: user});
                             resp.redirect('/webvendor/productvendor');
                       }else {
-                          resp.redirect("/authvendor/login");
+                          resp.redirect("/wauthvendor/login");
                       }
                 }else{
-                  resp.redirect("/authvendor/login");
+                  resp.redirect("/wauthvendor/login");
                   // return resp.status(409).json({
                   //   message:"user not found"
                   // });
