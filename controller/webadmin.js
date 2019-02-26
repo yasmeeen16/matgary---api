@@ -11,10 +11,12 @@ var mongoose = require("mongoose");
 var multer = require("multer");
 require("../Model/Category");
 require("../Model/offer");
-require("../Model/vendorData")
+require("../Model/vendorData");
+require("../Model/admin");
 var categoryDataModel = mongoose.model("Category");
 var   subCategoryModel= mongoose.model("subCategory");
 var vendorDataModel=mongoose.model("vendorData");
+var adminModel=mongoose.model("admin");
 require("../Model/product");
 var productModel = mongoose.model("product");
 
@@ -648,12 +650,25 @@ Router.post("/addproductToCat/:catId",uploadMid.any(),function(req,resp){
 
 
 });
+Router.get('/admins',function(req,resp,next){
+  adminModel.find({},function(err,admins){
+    resp.render("content/myadmins.ejs",{admins,admins});
 
+  })
+
+
+});
 Router.get('/getstart',function(req,resp,next){
   resp.json({msg:"start"});
     // vendorDataModel.find({}, function(err, vendors) {
     //   resp.render("content/vendordata.ejs",{vendors:vendors});
     // });
+
+});
+Router.get('/logout',function(req,resp,next){
+  req.session.destroy(function(){
+    resp.redirect('/authadmin/login');
+  });
 
 });
 module.exports=Router;

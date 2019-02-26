@@ -61,7 +61,7 @@
 
           $.ajax({
             type:"GET",
-            url:"http://localhost:8090/category/subcategories/"+x,
+            url:"https://testmatgary.herokuapp.com/category/subcategories/"+x,
             dataType:"json",
             success:function(data){
               if(data["data"].length>0){

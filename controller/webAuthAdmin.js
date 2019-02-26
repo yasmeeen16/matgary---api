@@ -13,7 +13,7 @@ var adminModel = mongoose.model("admin");
 
 
 Router.get('/login',function(req,resp){
-  resp.render("content/login.ejs");
+  resp.render("content/sign-in.ejs");
 
 });
 
@@ -61,7 +61,7 @@ Router.post('/login',BodyParserMid,function(req,resp){
         }
 });
 Router.get('/register',function(req,resp){
-    resp.render("content/login.ejs");
+    resp.render("content/sign-up.ejs");
 });
 Router.post('/register',BodyParserMid,function(req,resp,next){
     adminModel.findOne({ email: req.body.email }, function(err, user) {
@@ -102,7 +102,8 @@ Router.post('/register',BodyParserMid,function(req,resp,next){
                     console.log(err);
                   }
                   //const jsontoken = jwt.sign({client: client},'mysecret-key');
-                        resp.json({ admin: admin});
+                        //resp.json({ admin: admin});
+                        resp.redirect("/webadmin/home");
                 });
           }
         }

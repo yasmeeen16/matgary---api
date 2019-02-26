@@ -1,0 +1,88 @@
+<%include ../layout/header.ejs%>
+
+<div class="main-panel">
+      <div class="content">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card">
+
+                          <div class="content table-responsive table-full-width">
+                              <table class="table">
+                                  <thead>
+                                      <th>الايميل</th>
+                                      <th>الاسم</th>
+                                      <th>التليفون</th>
+
+                                  </thead>
+                                  <tbody>
+                                    <%admins.forEach(function(admin){ %>
+                                      <tr>
+                                          <td>
+                                              <div class="product">
+
+                                                  <div class="contain" style="display: flex;flex-direction: column">
+                                                      <div class="product-data">
+                                                          <a ><%=admin.email%></a>
+
+
+
+                                                      </div>
+
+                                                  </div>
+
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="product">
+
+                                                  <div class="contain" style="display: flex;flex-direction: column">
+                                                      <div class="product-data">
+                                                          <a ><%=admin.name%></a>
+
+
+
+                                                      </div>
+
+                                                  </div>
+
+                                              </div>
+                                          </td>
+                                          <td>
+                                              <div class="product">
+
+                                                  <div class="contain" style="display: flex;flex-direction: column">
+                                                      <div class="product-data">
+                                                          <a ><%=admin.phone%></a>
+
+
+
+                                                      </div>
+
+                                                  </div>
+
+                                              </div>
+                                          </td>
+
+
+
+
+                                      </tr>
+
+                                      <%});%>
+                                  </tbody>
+                              </table>
+
+                          </div>
+                      </div>
+                  </div>
+
+
+              </div>
+          </div>
+      </div>
+
+
+
+
+<%include ../layout/footer.ejs%>

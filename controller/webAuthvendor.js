@@ -13,7 +13,7 @@ var vendorModel = mongoose.model("vendorData");
 
 
 Router.get('/login',function(req,resp){
-  resp.render("content/login-vendor.ejs");
+  resp.render("content/signin-vendor.ejs");
 
 });
 
@@ -61,7 +61,7 @@ Router.post('/login',BodyParserMid,function(req,resp){
         }
 });
 Router.get('/register',function(req,resp){
-    resp.render("content/login-vendor.ejs");
+    resp.render("content/signup-vendor.ejs");
 });
 Router.post('/register',BodyParserMid,function(req,resp,next){
   vendorModel.findOne({ email: req.body.email }, function(err, user) {

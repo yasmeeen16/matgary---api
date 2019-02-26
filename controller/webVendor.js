@@ -115,4 +115,10 @@ Router.get('/productvendor',function(req,resp,next){
     }
 
 });
+Router.get('/logout',function(req,resp,next){
+  req.session.destroy(function(){
+    resp.redirect('/wauthvendor/login');
+  });
+
+});
 module.exports=Router;
