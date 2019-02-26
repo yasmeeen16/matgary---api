@@ -96,13 +96,17 @@ Router.post('/register',BodyParserMid,function(req,resp,next){
               time:new Date()
             });
             var hashedPassword = passwordHash.generate(req.body.password);
+            req.session.email = req.body.email;
+            req.session.password=req.body.password;
+            req.session.status="vendor";
                 vendor.password = hashedPassword;
                 vendor.save(function(err,doc){
                   if(err){
                     console.log(err);
                   }
                   //const jsontoken = jwt.sign({client: client},'mysecret-key');
-                        resp.json({ vendor: vendor});
+                        //resp.json({ vendor: vendor});
+                        resp.redirect('/webvendor/productvendor');
                 });
           }
         }

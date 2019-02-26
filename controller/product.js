@@ -8,11 +8,11 @@ const fs=require("fs");
 var mongoose = require("mongoose");
 require("../Model/product");
 require("../Model/subCategory");
-
+require("../Model/clientData")
 
 var productModel = mongoose.model("product");
 var subCategoryModel = mongoose.model("subCategory");
-
+var clientModel = mongoose.model("clientData");
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
 
@@ -290,7 +290,7 @@ Router.post('/addreviewtoproduct',BodyParserMid,function(req,resp){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"add review success"});
+              resp.json({result:true});
             }
 
       });
@@ -304,10 +304,74 @@ Router.get('/removefromcard',function(req,resp){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"remove from card success"});
+              resp.json({result:true});
             }
 
       });
+});
+
+//get product by product id
+Router.get('/productsByid/:productId',function(req,resp,next){
+
+ //console.log(catId);
+    productModel.findOne({_id:req.params.productId}, function(err, product) {
+                    resp.json({  product: product});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+//get product by offer id
+Router.get('/productsByOfferid/:offerId',function(req,resp,next){
+
+ //console.log(catId);
+    productModel.find({offerId:req.params.offerId}, function(err, products) {
+                    resp.json({  products: products});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+//get wishlist by user id
+Router.get('/wishlistbyuserId/:userId',function(req,resp,next){
+
+ //console.log(catId);
+    clientModel.findOne({_id:req.params.userId},{wishList:1}, function(err, result) {
+                    resp.json({  wishlist: result});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+
+//get card by user id
+Router.get('/cardbyuserId/:userId',function(req,resp,next){
+
+ //console.log(catId);
+    clientModel.findOne({_id:req.params.userId},{card:1}, function(err, card) {
+                    resp.json({  card: card});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+
+
+//get profile by user id
+Router.get('/profileuserId/:userId',function(req,resp,next){
+
+ //console.log(catId);
+    clientModel.findOne({_id:req.params.userId}, function(err, profile) {
+                    resp.json({  profile: profile});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
+});
+//get product by Model number
+Router.get('/productsBymodelnumber/:modelnumber',function(req,resp,next){
+
+ //console.log(catId);
+    productModel.find({modelnumber:req.params.modelnumber}, function(err, products) {
+                    resp.json({  products: products});
+                      //resp.render("content/listSubCat.ejs",{subcategories: subcategories});
+                  });
+
 });
 
 module.exports=Router;

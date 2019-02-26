@@ -100,11 +100,11 @@ Router.post('/register',BodyParserMid,function(req,resp,next){
 Router.get('/addtoWishList',function(req,resp){
     console.log(req.query.pId);
     console.log(req.query.cId);
-      clientModel.update({_id:req.query.cId},{$addToSet: {"wishList": {"productId": req.query.pId}}},function(err,result){
+      clientModel.updateOne({_id:req.query.cId},{$addToSet: {"wishList": {"productId": req.query.pId}}},function(err,result){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"like success"});
+              resp.json({result:true});
             }
 
       });
@@ -113,11 +113,11 @@ Router.get('/addtoWishList',function(req,resp){
 Router.get('/removeFromWishList',function(req,resp){
     // console.log(req.query.pId);
     // console.log(req.query.cId);
-      clientModel.update({_id:req.query.cId},{$pull: {"wishList": {"productId": req.query.pId}}},function(err,result){
+      clientModel.updateOne({_id:req.query.cId},{$pull: {"wishList": {"productId": req.query.pId}}},function(err,result){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"unlike success"});
+              resp.json({result:true});
             }
 
       });
@@ -129,11 +129,11 @@ Router.post('/addproducttocard',BodyParserMid,function(req,resp){
     // console.log(req.query.pId);
     // console.log(req.query.cId);
 
-      clientModel.update({_id:req.query.cId},{$addToSet: {"card": {"productId": req.query.pId,"quantity":req.body.quantity}}},function(err,result){
+      clientModel.updateOne({_id:req.query.cId},{$addToSet: {"card": {"productId": req.query.pId,"quantity":req.body.quantity}}},function(err,result){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"add to card success"});
+              resp.json({result:true});
             }
 
       });
@@ -148,7 +148,7 @@ Router.get('/removefromcard',BodyParserMid,function(req,resp){
             if(err){
               resp.json(err);
             }else{
-              resp.json({result:"remove from card success"});
+              resp.json({result:true});
             }
 
       });

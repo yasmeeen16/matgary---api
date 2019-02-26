@@ -7,6 +7,13 @@ var clientData = new Schema ({
   email:{type: String , require: true},
   phone:{type: String , require: true},
   password:{type: String , require: true},
+  address:{
+     country:String ,
+     state:String ,
+    city:String,
+    street_name:String ,
+     note:String
+  },
   wishList:[{
     productId:{type:String,default:0},
     time:{
