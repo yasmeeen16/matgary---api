@@ -74,8 +74,8 @@ server.use('/webadmin', webAdminRouts);
 var webVendorRouts=require('./controller/webVendor');
 server.use('/webvendor', webVendorRouts);
 
-var webuserRouts=require('./controller/webuser');
-server.use('/webuser', webuserRouts);
+// var webuserRouts=require('./controller/webuser');
+// server.use('/webuser', webuserRouts);
 
 server.listen(PORT,function(){
   console.log('server listen at port number ' + PORT);
