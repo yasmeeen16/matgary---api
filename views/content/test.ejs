@@ -12,7 +12,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
- 
+
   </head>
   <body>
 
@@ -30,8 +30,8 @@
            <td>
              <button  class="my1" type="button" name="button" value="<%=category._id%>"><%=category.Aname%></button>
              <!-- <ul id="myList">
-              
-              
+
+
             </ul> -->
            </td>
            <td>
@@ -44,18 +44,18 @@
        </tbody>
      </table>
      <script type="text/javascript">
- 
+
       $(document).ready(function(){
-       
+
         $('body').on('click', 'button',function(){
           console.log("button");
           var x = $(this).val();
           console.log(x);
           var btn = $(this);
-          
+
           $.ajax({
             type:"GET",
-            url:"http://localhost:8090/category/subcategories/"+x,
+            url:"http://testmatgary.herokuapp.com/category/subcategories/"+x,
             dataType:"json",
             success:function(data){
               if(data["data"].length>0){
@@ -67,13 +67,13 @@
                      type:"button",
                      name:"button",
                         css: {
-                          
+
                           "color": "Green"
                         }
                       };
                       var $butt = $("<button>", test);
                       $butt.html(data["data"][i].Aname);
-                      
+
                       $li= $('<li/>', { class: 'myli' });
                       $aedit= $('<a/>', { class: 'myaedit' });
                       $aedit.html("edit");
@@ -91,11 +91,11 @@
                     // var node = document.createElement("button");
                     // var textnode = document.createTextNode(data["data"][i].Aname);
                     // node.appendChild(textnode);
-                    
+
                     // btn.after( node );
 
 
-                   
+
                     btn.attr("disabled", true);
                 }
                   //alert(data["data"][0].Ename);
@@ -107,7 +107,7 @@
 
           });
         })
-      
+
 
       });
     </script>

@@ -33,6 +33,8 @@ var uploadMid = multer({dest:"./public/imgs"});
 //     }
 // });
 // ////////////////////////////////////
+
+
 Router.get('/home',function(req,resp,next){
 
   if(!(req.session.status=="admin")){
@@ -57,18 +59,43 @@ Router.get('/addCategory',function(req,resp,next){
   });
 }
 });
+Router.get('/addOfferTC/:catId',function(req,resp,next){
+  // if(!(req.session.status=="admin")){
+  //     resp.redirect('/authadmin/login');
+  // }else{
+
+  categoryModel.findOne({_id:req.params.catId}, function(err, category) {
+  offerModel.find({},function(err, offers) {
+  resp.render("content/addoferTC.ejs",{data:offers,category:category});
+  });
+});
+// }
+});
+Router.post('/addOfferTC/:catId',BodyParserMid,function(req,resp,next){
+
+    categoryModel.updateOne({_id:req.params.catId},{$addToSet: {"offerID":req.body.offer}},function(err,result){
+          if(err){
+            resp.json(err);
+          }else{
+            resp.redirect("/webadmin/home");
+            //resp.json({result:true});
+          }
+
+    });
+
+})
+
 
 Router.post('/addCategory',BodyParserMid,function(req,resp,next){
+  var parent;
+  var mainParent;
   if(!(req.session.status=="admin")){
       resp.redirect('/authadmin/login');
   }else{
 //   var Ename = req.body.Ename;
 //   var Aname = req.body.Aname;
   // var img = req.file;
-   var parent;
-   if(req.body.parent=="0"){parent=null;}else{
-     parent=req.body.parent;
-   }
+
 // //resp.json(req.file)
   // if(!img){
   //   resp.redirect("/webadmin/addCategory");
@@ -94,27 +121,48 @@ Router.post('/addCategory',BodyParserMid,function(req,resp,next){
                 // console.log(img);
 
       categoryDataModel.find({Ename:req.body.Ename ,Aname:req.body.Aname}, function(err, category) {
-                            if(category.length > 0){
-                              //resp.json({ msg : "duplicate category" });
-                              resp.redirect("/webadmin/addCategory");
-                            }else{
-                              var myCategory = new categoryDataModel({
-                                Ename:req.body.Ename,
-                                Aname: req.body.Aname,
-                                img:req.body.url,
-                                parent:parent,
-                                time:new Date()
-                              });
-                              myCategory.save(function(err,doc){
-                                if(err){
-                                  resp.redirect("/webadmin/addCategory");
-                                  //resp.json(err);
-                              }else{
-                                  console.log("saved")
-                                  resp.redirect("/webadmin/home");
-                              }
-                              });
-                            }
+        categoryDataModel.findOne({_id:req.body.parent},function(err,cat){
+
+             if(req.body.parent=="0"){
+               parent=null;
+               mainParent=null;
+             }else{
+
+               parent=req.body.parent;
+
+           //resp.json(cat)
+          var mainParent=cat.mainParent;
+
+            if( !mainParent){
+              mainParent=cat._id;
+            }
+            console.log(  mainParent);
+          }
+            if(category.length > 0){
+              //resp.json({ msg : "duplicate category" });
+              resp.redirect("/webadmin/addCategory");
+            }else{
+              var myCategory = new categoryDataModel({
+                Ename:req.body.Ename,
+                Aname: req.body.Aname,
+                img:req.body.url,
+                mainParent:mainParent,
+                parent:parent,
+                time:new Date()
+              });
+              myCategory.save(function(err,doc){
+                if(err){
+                  resp.redirect("/webadmin/addCategory");
+                  //resp.json(err);
+              }else{
+                  console.log("saved")
+                  resp.redirect("/webadmin/home");
+              }
+              });
+            }
+
+        })
+
                           });
                   }
   //              }
@@ -207,7 +255,7 @@ Router.get('/deleteoffer/:id',function(req,resp,next){
   if(!(req.session.status=="admin")){
       resp.redirect('/authadmin/login');
   }else{
-  offerModel.remove({_id:req.params.id}, function(err, vendors) {
+  offerModel.deleteOne({_id:req.params.id}, function(err, vendors) {
     resp.redirect("/webadmin/offers");
   });
 }
@@ -336,7 +384,7 @@ Router.get('/deleteCategory/:id',function(req,resp,next){
   if(!(req.session.status=="admin")){
       resp.redirect('/authadmin/login');
   }else{
-  categoryModel.remove({_id:req.params.id}, function(err, vendors) {
+  categoryModel.deleteOne({_id:req.params.id}, function(err, vendors) {
     resp.redirect("/webadmin/home");
   });
 }
@@ -671,4 +719,5 @@ Router.get('/logout',function(req,resp,next){
   });
 
 });
+
 module.exports=Router;

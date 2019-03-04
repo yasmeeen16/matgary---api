@@ -12,7 +12,9 @@ var Category = new Schema ({
     img:{type:String,default:0}
 
   },
+  offerID:[{type: Schema.ObjectId,ref:"offer",default:null }],
   parent:{ type: Schema.ObjectId,ref:"Category",default:null },
+  mainParent:{ type: Schema.ObjectId,ref:"Category",default:null },
   time:{
     type:Date,
     Default:Date.now()

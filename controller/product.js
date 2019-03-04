@@ -15,6 +15,18 @@ var subCategoryModel = mongoose.model("subCategory");
 var clientModel = mongoose.model("clientData");
 var multer = require("multer");//to upload file
 var uploadMid = multer({dest:"./public/imgs"});
+Router.get('/products/:catId',function(req,resp,next){
+  productModel.find({catId:req.params.catId},function(err,products){
+    resp.json({products:products})
+  })
+});
+
+//get all products under main cat
+Router.get('/allproducts/:maincatId',function(req,resp,next){
+  productModel.find({mainCategory:req.params.maincatId},function(err,products){
+    resp.json({products:products})
+  })
+});
 
 Router.post("/addproductToCat",uploadMid.any(),function(req,resp){
 

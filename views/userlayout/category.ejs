@@ -1,0 +1,488 @@
+<%include ../userheader_footer/header.ejs%>
+
+	<div class="container">
+		<div class="row">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/webuser/index">Home</a></li>
+					<li class="breadcrumb-item"><a ><%=catp.Aname%></a></li>
+					<li class="breadcrumb-item active" aria-current="page"><%=cat.Aname%></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 col-sm-4">
+				<div class="Filltering">
+
+					<div class="accordion" id="accordionExample">
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h2 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									<%=catp.Aname%> <span class="icon-e-13"></span>
+
+									</button>
+								</h2>
+							</div>
+
+							<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+								<div class="card-body">
+									<nav class="nav flex-column">
+										<a class="nav-link active" href="#" onclick="productsTest('<%=cat._id%>')" >
+
+											<%=cat.Aname%>
+											<script type="text/javascript">
+											var mya = $(this);
+
+												function productsTest(category_id){
+
+													$.ajax({
+													type:"GET",
+													url:"http://testmatgary.herokuapp.com/product/products/"+category_id,
+													dataType:"json",
+													success:function(data){
+														if(data["products"].length>0){
+														$('.product').html("")
+														for(var i=0;i<data["products"].length;i++){
+															// //console.log(data["data"][i].Aname);
+															// catId1=data["products"][i]._id;
+															//
+															// 	var t = document.createTextNode(data["products"][i].Aname);       // Create a text node
+															//
+															// 	 var li = document.createElement("li");
+															// 	 var an = document.createElement("a");
+															// 	 an.appendChild(t);
+															// 	 // an.setAttribute('href', "/webuser/category/"+catId1);
+															// 	li.appendChild(an);
+															// 	$('.product').append(t);
+															var div1 = document.createElement("div");
+															div1.className = "col-md-2";
+															var div2 = document.createElement("div");
+															div2.className = "ProItem";
+															var anc = document.createElement("a");
+														//var t = document.createTextNode(data["products"][i].Aname);
+														//	anc.appendChild(t);
+															div2.appendChild(anc);
+															div1.appendChild(div2);
+															var div3 = document.createElement("div");
+															div3.className="proimage";
+															var img=document.createElement("img");
+															img.setAttribute('src', data["products"][i].imgs[0]);
+															var div4 = document.createElement("div");
+															div4.appendChild(img);
+															var div5 = document.createElement("div");
+															var logoo=document.createElement('img');
+															logoo.setAttribute("src","/user-static/images/p/now.svg" );
+															logoo.setAttribute("class","nowlable");
+															div5.appendChild(logoo);
+															var div6 = document.createElement("div");
+															div6.className="actionContainer";
+															div3.appendChild(div4);
+															div3.appendChild(div5);
+																var btn = document.createElement("button");
+																btn.setAttribute("class","actionBtn");
+																btn.setAttribute("aria-label","Add To wishlist");
+																	var I = document.createElement("i");
+																	I.setAttribute("class","icon-h-13");
+																	btn.appendChild(I)
+															div6.appendChild(btn);
+
+															div3.appendChild(div6);
+															anc.appendChild(div3);
+															var prodetails= document.createElement("div");
+															prodetails.className="prodetails";
+															var t1 = document.createTextNode( data["products"][i].brandArabic);
+
+															var p=document.createElement("p");
+															 p.className="brand";
+															 p.appendChild(t1);
+															 prodetails.appendChild(p);
+															 var divName = document.createElement("div");
+															 divName.setAttribute("class","name");
+															 divName.setAttribute("style","overflow: hidden;");
+
+															 var pName = document.createElement("p");
+															 var t2 = document.createTextNode(data["products"][i].Aname);
+															 pName.appendChild(t2)
+															 divName.appendChild(pName)
+															 prodetails.appendChild(divName)
+
+															var priceRow= document.createElement("div");
+															var productPriceContainer = document.createElement("div");
+															var proPrice = document.createElement("p");
+															var preReductionPrice=document.createElement("span");
+															var discount=document.createElement("span");
+															discount.className="discount";
+															var discountBadge=document.createElement("span");
+															discountBadge.className="discountBadge";
+															var des=document.createTextNode(data["products"][i].discount+" off");
+															discountBadge.appendChild(des);
+															discount.appendChild(discountBadge);
+
+															var sellingPrice=document.createElement("span");
+															var selling =document.createTextNode(data["products"][i].price2);
+															sellingPrice.appendChild(selling)
+
+															preReductionPrice.className="preReductionPrice";
+															 var t3 = document.createTextNode(data["products"][i].price1);
+															 preReductionPrice.appendChild(t3)
+															priceRow.className="priceRow";
+															productPriceContainer.className="productPriceContainer"
+															proPrice.className="proPrice";
+															proPrice.appendChild(preReductionPrice);
+															proPrice.appendChild(discount);
+															proPrice.appendChild(sellingPrice);
+															productPriceContainer.appendChild(proPrice)
+															priceRow.appendChild(productPriceContainer);
+
+															var actionContainer=document.createElement("div");
+															actionContainer.className="actionContainer";
+															var actionBtn=document.createElement("button");
+															actionBtn.className="actionBtn";
+															actionBtn.setAttribute("aria-label","Add To Cart");
+															var icon=document.createElement("i");
+															icon.className="icon-g-48";
+															actionBtn.appendChild(icon);
+															actionContainer.appendChild(actionBtn);
+															priceRow.appendChild(actionContainer)
+															prodetails.appendChild(priceRow);
+															 anc.appendChild(prodetails);
+															$('.product').append(div1);
+														}
+													}
+
+												}
+												});
+												}
+											</script>
+											<span>
+												185
+											</span>
+										</a>
+
+										<nav class="nav flex-column">
+											<%categories1.forEach(function(category){ %>
+											<a class="nav-link active" href="#" onclick="products('<%=category._id%>')">
+												<script type="text/javascript">
+												var mya = $(this);
+
+													function products(category_id){
+														$.ajax({
+														type:"GET",
+														url:"http://testmatgary.herokuapp.com/product/products/"+category_id,
+														dataType:"json",
+														success:function(data){
+															$('.product').html("")
+															for(var i=0;i<data["products"].length;i++){
+																// //console.log(data["data"][i].Aname);
+																// catId1=data["products"][i]._id;
+																//
+																// 	var t = document.createTextNode(data["products"][i].Aname);       // Create a text node
+																//
+																// 	 var li = document.createElement("li");
+																// 	 var an = document.createElement("a");
+																// 	 an.appendChild(t);
+																// 	 // an.setAttribute('href', "/webuser/category/"+catId1);
+																// 	li.appendChild(an);
+																// 	$('.product').append(t);
+																var div1 = document.createElement("div");
+																div1.className = "col-md-2";
+																var div2 = document.createElement("div");
+																div2.className = "ProItem";
+																var anc = document.createElement("a");
+															//var t = document.createTextNode(data["products"][i].Aname);
+															//	anc.appendChild(t);
+																div2.appendChild(anc);
+																div1.appendChild(div2);
+																var div3 = document.createElement("div");
+																div3.className="proimage";
+																var img=document.createElement("img");
+																img.setAttribute('src', data["products"][i].imgs[0]);
+																var div4 = document.createElement("div");
+																div4.appendChild(img);
+																var div5 = document.createElement("div");
+																var logoo=document.createElement('img');
+																logoo.setAttribute("src","/user-static/images/p/now.svg" );
+																logoo.setAttribute("class","nowlable");
+																div5.appendChild(logoo);
+																var div6 = document.createElement("div");
+																div6.className="actionContainer";
+																div3.appendChild(div4);
+																div3.appendChild(div5);
+																	var btn = document.createElement("button");
+																	btn.setAttribute("class","actionBtn");
+																	btn.setAttribute("aria-label","Add To wishlist");
+																		var I = document.createElement("i");
+																		I.setAttribute("class","icon-h-13");
+																		btn.appendChild(I)
+																div6.appendChild(btn);
+
+																div3.appendChild(div6);
+																anc.appendChild(div3);
+																var prodetails= document.createElement("div");
+																prodetails.className="prodetails";
+																var t1 = document.createTextNode( data["products"][i].brandArabic);
+
+																var p=document.createElement("p");
+																 p.className="brand";
+																 p.appendChild(t1);
+																 prodetails.appendChild(p);
+																 var divName = document.createElement("div");
+																 divName.setAttribute("class","name");
+																 divName.setAttribute("style","overflow: hidden;");
+
+																 var pName = document.createElement("p");
+																 var t2 = document.createTextNode(data["products"][i].Aname);
+																 pName.appendChild(t2)
+																 divName.appendChild(pName)
+																 prodetails.appendChild(divName)
+
+																var priceRow= document.createElement("div");
+																var productPriceContainer = document.createElement("div");
+																var proPrice = document.createElement("p");
+																var preReductionPrice=document.createElement("span");
+																var discount=document.createElement("span");
+																discount.className="discount";
+																var discountBadge=document.createElement("span");
+																discountBadge.className="discountBadge";
+																var des=document.createTextNode(data["products"][i].discount+" off");
+																discountBadge.appendChild(des);
+																discount.appendChild(discountBadge);
+
+																var sellingPrice=document.createElement("span");
+																var selling =document.createTextNode(data["products"][i].price2);
+																sellingPrice.appendChild(selling)
+
+																preReductionPrice.className="preReductionPrice";
+																 var t3 = document.createTextNode(data["products"][i].price1);
+																 preReductionPrice.appendChild(t3)
+																priceRow.className="priceRow";
+																productPriceContainer.className="productPriceContainer"
+																proPrice.className="proPrice";
+																proPrice.appendChild(preReductionPrice);
+																proPrice.appendChild(discount);
+																proPrice.appendChild(sellingPrice);
+																productPriceContainer.appendChild(proPrice)
+																priceRow.appendChild(productPriceContainer);
+
+																var actionContainer=document.createElement("div");
+																actionContainer.className="actionContainer";
+																var actionBtn=document.createElement("button");
+																actionBtn.className="actionBtn";
+																actionBtn.setAttribute("aria-label","Add To Cart");
+																var icon=document.createElement("i");
+																icon.className="icon-g-48";
+																actionBtn.appendChild(icon);
+																actionContainer.appendChild(actionBtn);
+																priceRow.appendChild(actionContainer)
+																prodetails.appendChild(priceRow);
+																 anc.appendChild(prodetails);
+																$('.product').append(div1);
+															}
+														}
+
+
+													});
+													}
+												</script>
+												<%=category.Aname%>
+												<span>
+													100
+												</span>
+											</a>
+											<%})%>
+
+										</nav>
+
+									</nav>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" id="headingTwo">
+								<h2 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										Fulfillment <span class="icon-e-13"></span>
+									</button>
+								</h2>
+							</div>
+							<div id="collapseTwo" class="" aria-labelledby="headingTwo" data-parent="#accordionExample">
+								<div class="card-body">
+									<form>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="customCheck1">
+											<label class="custom-control-label" for="customCheck1">
+												<img src="/user-static/images/p/now.svg" alt="" class="nowlable loading" data-was-processed="true">
+											</label>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" id="headingThree">
+								<h2 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+										Price (AED) <span class="icon-e-13"></span>
+									</button>
+								</h2>
+							</div>
+							<div id="collapseThree" class="" aria-labelledby="headingThree" data-parent="#accordionExample">
+								<div class="card-body">
+									<form class="pricelevel">
+										<div class="form-group row">
+											<input class="form-control form-control-sm col-4" type="number">
+											<label for="exampleFormControlFile1" class="col-2">TO</label>
+											<input class="form-control form-control-sm col-4" type="number">
+											<a class="col-2">GO</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" id="headingFour">
+								<h2 class="mb-0">
+									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+										Connectivity <span class="icon-e-13"></span>
+									</button>
+								</h2>
+							</div>
+							<div id="collapseFour" class="" aria-labelledby="headingFour" data-parent="#accordionExample">
+								<div class="card-body">
+									<form>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="customCheck2">
+											<label class="custom-control-label" for="customCheck2">
+												Bluetooth/Wireless <span>87</span>
+											</label>
+										</div>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="customCheck3">
+											<label class="custom-control-label" for="customCheck3">
+												Wired <span>87</span>
+											</label>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-8 ">
+				<div class="col-md-12">
+					<h5 class="float-left">
+						<span class="itemsNo">1281</span> results found for "<span class="catname">Mobile</span>"
+					</h5>
+					<div class="float-right">
+						<form class="sortfilter">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<label class="input-group-text" for="inputGroupSelect01">SORT BY</label>
+								</div>
+								<select class="custom-select" id="inputGroupSelect01">
+									<option selected>Popularity</option>
+									<option value="1">One</option>
+									<option value="2">Two</option>
+									<option value="3">Three</option>
+								</select>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<label class="input-group-text" for="inputGroupSelect01">DISPLAY</label>
+								</div>
+								<select class="custom-select" id="inputGroupSelect01">
+									<option selected>50 per page</option>
+									<option value="1">One</option>
+									<option value="2">Two</option>
+									<option value="3">Three</option>
+								</select>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-12 MATJARIPRO product">
+					<%allproducts.forEach(function(product){ %>
+					<div class="col-md-2">
+						<div class="ProItem">
+				    		<a class="" href="">
+				    			<div class="proimage">
+				    				<div class="">
+			    						<img src="<%=product.imgs[0]%>" alt="">
+				    				</div>
+				    				<div class="">
+			    						<img src="/user-static/images/p/now.svg" alt="" class="nowlable">
+					    			</div>
+				    				<div class="actionContainer">
+				    					<button aria-label="Add To wishlist" class="actionBtn">
+				    						<i class="icon-h-13"></i>
+				    					</button>
+					    			</div>
+					    		</div>
+					    		<div class="prodetails">
+				    				<p class="brand">
+					    				<%=product.brandArabic%>
+					    			</p>
+				    				<div class="name" style="overflow: hidden;">
+										<p>
+											<%=product.Aname%>
+										</p>
+				    				</div>
+				    				<div class="priceRow">
+				    					<div class="productPriceContainer">
+				    						<p class="proPrice">
+			    								<span class="preReductionPrice">
+				    								<%=product.price1%>
+				    							</span>
+				    							<span class="discount">
+					    							<span class="discountBadge">
+					    								<%=product.discount %>off
+					    							</span>
+				    							</span>
+				    							<span class="sellingPrice">
+					    						<%=product.price2%>
+					    						</span>
+					    					</p>
+					    				</div>
+					    				<div class="actionContainer">
+					    					<button aria-label="Add To Cart" class="actionBtn">
+					    						<i class="icon-g-48"></i>
+					    					</button>
+					    				</div>
+					    			</div>
+					    		</div>
+					    	</a>
+					    </div>
+					</div>
+					<%})%>
+
+				</div>
+				<div class="col-md-12">
+					<nav aria-label="Page navigation example m-auto" class="Page navigation">
+						<ul class="pagination">
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%include ../userheader_footer/footer.ejs%>

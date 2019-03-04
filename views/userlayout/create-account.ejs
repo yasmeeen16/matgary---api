@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" id="mycss" href="/user-static/css/theme.css">
+
+	<meta charset="utf-8">
+	<title>Wokiee - Responsive HTML5 Template</title>
+	<meta name="keywords" content="HTML5 Template">
+	<meta name="description" content="Wokiee - Responsive HTML5 Template">
+	<meta name="author" content="wokiee">
+	<link rel="shortcut icon" href="favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+<div id="loader-wrapper">
+	<div id="loader">
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+		<div class="dot"></div>
+	</div>
+</div>
+<div id="tt-pageContent">
+	<div class="container-indent">
+		<div class="container">
+			<div class="text-right">
+					<button  id="myLanguage" type="button" class="btn btn-light text-bold" style="background-color: #e7e7e7; color: black;">العربية</button>
+			</div>
+			<div class="text-center">
+				<a class="tt-logo tt-logo-alignment m-4" href="index.html"><img src="/user-static/images/custom/logo.png" alt=""></a>
+				<h3>Create your account</h3>
+				<p class="mb-3">
+					Do you have an account? <a href="login.html" class="log-in">Sign In</a>
+				</p>
+			</div>
+			<div class="tt-login-form">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6">
+						<div class="tt-item">
+							<div class="form-default">
+								<form id="contactform Myform" action="/wauthclient/register" method="post" novalidate="novalidate">
+									<div class="form-group">
+										<input type="text" name="name" class="form-control" id="loginInputName" placeholder="Name">
+									</div>
+									<div class="form-group">
+										<input type="text" name="email" class="form-control" id="loginInputEmail" placeholder="E-mail">
+									</div>
+									<div class="form-group">
+										<input type="text" name="phone" class="form-control" id="loginInputPhone" placeholder="Phone">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" class="form-control" id="loginInputPassword" placeholder="Password">
+									</div>
+
+									<div class="form-group">
+										<input type="password" name="confPassword" class="form-control" id="loginconfPassword" placeholder="confirm Password">
+									</div>
+									<div class="form-group">
+										<button class="btn btn-block" type="submit">CREATE ACCOUNT</button>
+									</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/user-static/external/jquery/jquery.min.js"></script>
+<script src="/user-static/external/bootstrap/js/bootstrap.min.js"></script>
+<script src="/user-static/external/slick/slick.min.js"></script>
+<script src="/user-static/external/panelmenu/panelmenu.js"></script>
+<script src="/user-static/external/lazyLoad/lazyload.min.js"></script>
+<script src="/user-static/js/main.js"></script>
+<!-- form validation and sending to mail -->
+<script src="/user-static/external/form/jquery.form.js"></script>
+<script src="/user-static/external/form/jquery.validate.min.js"></script>
+<script src="/user-static/external/form/jquery.form-init.js"></script>
+<script src="/bundle.js"></script>
+<script type="text/javascript">
+// 	function myLanguage(){
+//
+// 		var elem = document.getElementById("myLanguage");
+// 		if(elem.innerHTML=="العربية"){
+// 			elem.innerHTML="English";
+// 			changeCSS("/user-static/css/theme-rtl.css", "0");
+// 		}else{
+// 			elem.innerHTML="العربية";
+// 		}
+// 	}
+// 	function changeCSS(cssFile, cssLinkIndex) {
+//
+//     var oldlink = document.getElementById("mycss").item(cssLinkIndex);
+//
+//     var newlink = document.createElement("link");
+//     newlink.setAttribute("rel", "stylesheet");
+//     newlink.setAttribute("type", "text/css");
+//     newlink.setAttribute("href", cssFile);
+//
+//     document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
+// 		console.log("success")
+// }
+</script>
+</body>
+</html>

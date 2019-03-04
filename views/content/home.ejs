@@ -30,6 +30,7 @@
                                         <td>
                                           <a href="/webadmin/editCategory/<%=category. _id%>"> تعديل </a>
                                           <a href="/webadmin/deleteCategory/<%=category. _id%>"> حذف </a>
+                                          <a href="/webadmin/addOfferTC/<%=category. _id%>"> اضافه عرض </a>
                                         </td>
                                       </tr>
                                       <%});%>
@@ -61,7 +62,7 @@
 
           $.ajax({
             type:"GET",
-            url:"https://testmatgary.herokuapp.com/category/subcategories/"+x,
+            url:"http://testmatgary.herokuapp.com/category/subcategories/"+x,
             dataType:"json",
             success:function(data){
               if(data["data"].length>0){
@@ -82,8 +83,10 @@
                       $aedit.html(" تعديل " );
                       $adelete= $('<a>', { class: 'myadelete',href:"/webadmin/deleteCategory/"+data["data"][i]._id});
                       $adelete.html("حذف ");
+
                       $li.append($aedit);
                       $li.append($adelete);
+
                       $li.append($butt);
 
                       $ul.append($li);

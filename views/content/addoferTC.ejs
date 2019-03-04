@@ -1,0 +1,44 @@
+<%include ../layout/header.ejs%>
+
+
+ <div class="main-panel">
+    <div class="content">
+
+
+        <div class="container-fluid">
+
+                <div class="col-xs-12">
+                    <form class="" action="/webadmin/addOfferTC/<%=category._id%>" method="post">
+                    <div class=" row data-container">
+                        <div class="col-xs-12">
+
+
+                                <div class="form-group">
+
+                                    <div class="form-group">
+                                        <div class=" form-control">
+                                                <select name="offer">
+                                                        <option value="0">اختر العرض</option>
+                                                        <%data.forEach(function(offer){ %>
+                                                            <option value="<%=offer._id %>"><%=offer.name %></option>
+
+                                                        <%});%>
+                                                </select>
+                                              </div>
+                                        </div>
+                                        <div class=" form-group">
+                                            <button type="submit" id="submit_btn" class="add form-control">اضافه العرض</button>
+                                        </div>
+                                </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
+<script src="/assets/js/addcategory.js"></script> -->
+<%include ../layout/footer.ejs%>

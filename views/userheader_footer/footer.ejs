@@ -1,0 +1,192 @@
+<footer>
+	<div class="tt-footer-default tt-color-scheme-02">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-9">
+					<div class="tt-newsletter-layout-01">
+						<div class="tt-newsletter">
+							<div class="tt-mobile-collapse">
+								<h4 class="tt-collapse-title">
+									BE IN TOUCH WITH US:
+								</h4>
+								<div class="tt-collapse-content">
+									<form id="newsletterform" class="form-inline form-default" method="post" novalidate="novalidate" action="#">
+										<div class="form-group">
+											<input type="text" name="email" class="form-control" placeholder="Enter your e-mail">
+											<button type="submit" class="btn">JOIN US</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-auto">
+					<ul class="tt-social-icon">
+						<li><a class="icon-g-64" target="_blank" href="http://www.facebook.com/"></a></li>
+						<li><a class="icon-h-58" target="_blank" href="http://www.facebook.com/"></a></li>
+						<li><a class="icon-g-66" target="_blank" href="http://www.twitter.com/"></a></li>
+						<li><a class="icon-g-67" target="_blank" href="http://www.google.com/"></a></li>
+						<li><a class="icon-g-70" target="_blank" href="https://instagram.com/"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tt-footer-col tt-color-scheme-01">
+		<div class="container">
+			<div class="row">
+        <%categories.forEach(function(category){ %>
+				<div class="col-md-2 col-sm-4">
+					<div class="tt-mobile-collapse">
+						<h4 class="tt-collapse-title"  onmouseover="subcattt('<%=category._id%>')">
+							<%=category.Aname%>
+						</h4>
+						<div class="tt-collapse-content">
+              <script type="text/javascript">
+                  function subcattt(category_id){
+                    $.ajax({
+                    type:"GET",
+                    url:"http://testmatgary.herokuapp.com/category/subcategories/"+category_id,
+                    dataType:"json",
+                    success:function(data){
+
+                      $('.cattt').html("")
+                      for(var i=0;i<data["data"].length;i++){
+                        //console.log(data["data"][i].Aname);
+
+                        catId1=data["data"][i]._id;
+
+                          var t = document.createTextNode(data["data"][i].Aname);       // Create a text node
+
+                           var li = document.createElement("li");
+                           var an = document.createElement("a");
+                           an.appendChild(t);
+                           an.setAttribute('href', "/webuser/category/"+catId1);
+                          li.appendChild(an);
+                          $('.cattt').append(li);
+                      }
+                    }
+                  })
+                  }
+
+              </script>
+							<ul class="tt-list cattt">
+
+							</ul>
+						</div>
+					</div>
+				</div>
+        <%})%>
+
+			</div>
+			<div class="row text-center">
+				<div class="col-6 m-auto">
+					<h4 class="mt-4 pb-0">
+						SHOP ON THE GO
+					</h4>
+					<a href="" class="ios">
+					</a>
+					<a href="" class="android">
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tt-footer-custom">
+		<div class="container">
+			<div class="tt-row">
+				<div class="tt-col-left">
+					<div class="tt-col-item">
+						<!-- copyright -->
+						<div class="tt-box-copyright">
+							&copy; Riyad Software 2018. All Rights Reserved
+						</div>
+						<!-- /copyright -->
+
+						<!-- payment-list -->
+						<ul class="tt-payment-list">
+							<li class="mastercard">
+								<a href="">
+								</a>
+					        </li>
+							<li class="visa">
+								<a href="">
+								</a>
+					        </li>
+							<li class="cash">
+								<a href="">
+								</a>
+					        </li>
+							<li class="amex">
+								<a href="">
+								</a>
+					        </li>
+						</ul>
+						<!-- /payment-list -->
+					</div>
+				</div>
+				<div class="tt-col-right">
+						<div class="tt-col-item">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a href="careers.html">
+										Careers
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="warranty policy.html">
+										Warranty Policy
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="sell with us.html">
+										Sell with us
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="terms of use.html">
+										Terms of Use
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="terms of sale.html">
+										Terms of Sale
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="privacy policy.html">
+										Privacy Policy
+									</a>
+								</li>
+								<li class="list-inline-item">
+									<a href="consumer rights.html">
+										Consumer Rights
+									</a>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<a href="#" class="tt-back-to-top">BACK TO TOP</a>
+<script src="/user-static/external/jquery/jquery.min.js"></script>
+<script src="/user-static/external/bootstrap/bootstrap.min.js"></script>
+<script src="/user-static/external/slick/slick.min.js"></script>
+<script src="/user-static/external/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="/user-static/external/panelmenu/panelmenu.js"></script>
+<script src="/user-static/external/instafeed/instafeed.min.js"></script>
+<script src="/user-static/external/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="/user-static/external/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script src="/user-static/external/countdown/jquery.plugin.min.js"></script>
+<script src="/user-static/external/countdown/jquery.countdown.min.js"></script>
+<script src="/user-static/external/lazyLoad/lazyload.min.js"></script>
+<script src="/user-static/js/main.js"></script>
+<!-- form validation and sending to mail -->
+<script src="/user-static/external/form/jquery.form.js"></script>
+<script src="/user-static/external/form/jquery.validate.min.js"></script>
+<script src="/user-static/external/form/jquery.form-init.js"></script>
+</body>
+</html>

@@ -21,14 +21,15 @@ var product = new Schema ({
          type:Schema.ObjectId,
          ref:"Category"
      },
+  mainCategory:{
+            type:Schema.ObjectId,
+            ref:"Category"
+        },
      vendorId:{
             type:Schema.ObjectId,
             ref:"vendorData"
         },
-  offerId:{
-        type:Schema.ObjectId,
-        ref:"offer"
-      },
+  offerId:String,
   subcatId:{
             type:Schema.ObjectId,
             ref:"subCategory"

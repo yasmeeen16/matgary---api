@@ -43,6 +43,7 @@ Router.get('/addproductToCat',function(req,resp,next){
 //add product to category
 Router.post("/addproductToCat",BodyParserMid,function(req,resp){
   var vendorId;
+  var mainCategory;
   if(!(req.session.status=="vendor")){
       resp.redirect('/wauthvendor/login');
   }else {
@@ -55,44 +56,52 @@ Router.post("/addproductToCat",BodyParserMid,function(req,resp){
     //resp.json({res:res});
     imgs=res;
 
+
            productModel.find({Aname:req.body.Aname , Ename:req.body.Ename}, function(err, products) {
+             categoryDataModel.findOne({_id:req.body.catId},function(err,categ){
+               if(categ){
+                 mainCategory=categ.mainParent;
+               }
+               var product = new productModel({
+                 Ename:req.body.Ename,
+                 Aname:req.body.Aname,
+                 modelnumber:req.body.modelnumber,
+                 brandArabic:req.body.brandArabic,
+                 brandEnglish:req.body.brandEnglish,
+                 price1:req.body.price1,
+                 price2:req.body.price2,
+                 imgs:imgs,
+                 vendorId:vendorId,
+                 catId:req.body.catId,
+                 offerId:req.body.offerId,
+                 discount:req.body.discount,
+                 discriptionEnglish:req.body.discriptionEnglish,
+                 discriptionArabic:req.body.discriptionArabic,
+                 tagsArabic:req.body.tagsArabic,
+                 tagsEnglish:req.body.tagsEnglish,
+                 freeshipping:req.body.freeshipping,
+                 heighlightEnglish:req.body.heighlightEnglish,
+                 heighlightArabic:req.body.heighlightArabic,
+                 specificationEnglish:req.body.specificationEnglish,
+                 specificationArabic:req.body.specificationArabic,
+                 quantity:req.body.quantity,
+                 status:req.body.status,
+                 mainCategory:mainCategory,
+                 time:Date.now()
+               });//object of product
+               product.save(function(err) {
+                     if(err){
+                         //resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
+                         console.log(err);
+                         return;
+                       }else
+                       resp.redirect('/webvendor/productvendor');
+                       //resp.json({  product :  product});
 
-                              var product = new productModel({
-                                Ename:req.body.Ename,
-                                Aname:req.body.Aname,
-                                modelnumber:req.body.modelnumber,
-                                brandArabic:req.body.brandArabic,
-                                brandEnglish:req.body.brandEnglish,
-                                price1:req.body.price1,
-                                price2:req.body.price2,
-                                imgs:imgs,
-                                vendorId:vendorId,
-                                catId:req.body.catId,
-                                offerId:req.body.offerId,
-                                discount:req.body.discount,
-                                discriptionEnglish:req.body.discriptionEnglish,
-                                discriptionArabic:req.body.discriptionArabic,
-                                tagsArabic:req.body.tagsArabic,
-                                tagsEnglish:req.body.tagsEnglish,
-                                freeshipping:req.body.freeshipping,
-                                heighlightEnglish:req.body.heighlightEnglish,
-                                heighlightArabic:req.body.heighlightArabic,
-                                specificationEnglish:req.body.specificationEnglish,
-                                specificationArabic:req.body.specificationArabic,
-                                quantity:req.body.quantity,
-                                status:req.body.status,
-                                time:Date.now()
-                              });//object of product
-                              product.save(function(err) {
-                                    if(err){
-                                        //resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
-                                        console.log(err);
-                                        return;
-                                      }else
-                                      resp.redirect('/webvendor/productvendor');
-                                      //resp.json({  product :  product});
+                     });//save the object
 
-                                    });//save the object
+
+               });
 
                         });
 }
