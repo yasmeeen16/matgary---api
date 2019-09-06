@@ -13,6 +13,7 @@ var Category = new Schema ({
 
   },
   offerID:[{type: Schema.ObjectId,ref:"offer",default:null }],
+  productsID:[{type: Schema.ObjectId,ref:"product",default:null }],
   parent:{ type: Schema.ObjectId,ref:"Category",default:null },
   mainParent:{ type: Schema.ObjectId,ref:"Category",default:null },
   time:{

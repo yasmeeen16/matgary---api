@@ -45,6 +45,7 @@ Router.post('/login',BodyParserMid,function(req,resp){
                         req.session.password=req.body.password;
                         req.session.status="client";
                         req.session.client_id=user._id;
+                        req.session.username=user.name;
                           // const jsontoken = jwt.sign({user: user},'mysecret-key');
                           //   resp.json({ user: user, token:jsontoken});
                           resp.redirect("/webuser/index");
@@ -99,13 +100,15 @@ Router.post('/register',BodyParserMid,function(req,resp,next){
                 req.session.email = req.body.email;
                 req.session.password=req.body.password;
                 req.session.status="client";
-                req.session.client_id=user._id;
                 client.save(function(err,doc){
                   if(err){
                     console.log(err);
                   }
-                  const jsontoken = jwt.sign({client: client},'mysecret-key');
-                        resp.json({ client: client, token:jsontoken});
+
+                  req.session.client_id=client._id;
+                  // const jsontoken = jwt.sign({client: client},'mysecret-key');
+                  //       resp.json({ client: client, token:jsontoken});
+                  resp.redirect("/wauthclient/login");
                 });
           }
         }

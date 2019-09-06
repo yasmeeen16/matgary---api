@@ -15,14 +15,14 @@ var clientData = new Schema ({
      note:String
   },
   wishList:[{
-    productId:{type:String,default:0},
+    productId:{type: Schema.ObjectId,ref:"product",default:null },
     time:{
       type:Date,
       default:Date.now()
     }
   }],
   card:[{
-    productId:{type:String,default:0},
+    productId:{type: Schema.ObjectId,ref:"product",default:null },
     time:{
       type:Date,
       default:Date.now()

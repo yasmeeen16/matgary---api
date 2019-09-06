@@ -1,5 +1,40 @@
 <%include ../userheader_footer/header.ejs%>
-
+<script type="text/javascript">
+$('body').on('click', '.addtocardbtn',function(e){
+  e.preventDefault();
+	var btn = $(this);
+	 btn.css("background","orange");
+	// if(isClicked == false){	isClicked = true;}else{isClicked = false;}
+ //
+	// if(isClicked){
+	//  btn.css("background","orange");
+ // }else{btn.css("background","gainsboro");}
+});
+function addTocard(userid,productid){
+// 	alert(userid);
+// alert(productid);
+var btn = $(this);
+	// console.log("userid");
+		$.ajax({
+		type:"GET",
+		url:"http://localhost:8090/authClient/addOneproducttocard/?cId="+userid+'&pId='+productid,
+		dataType:"json",
+		success:function(data){
+			alert("success")
+			}
+	});
+	}
+	function addTowishlist(userid,productid){
+		$.ajax({
+		type:"GET",
+		url:"http://localhost:8090/authClient/addtoWishList/?cId="+userid+'&pId='+productid,
+		dataType:"json",
+		success:function(data){
+			alert("success")
+			}
+	});
+	}
+</script>
 	<div class="container">
 		<div class="row">
 			<nav aria-label="breadcrumb">
@@ -41,7 +76,7 @@
 
 													$.ajax({
 													type:"GET",
-													url:"http://testmatgary.herokuapp.com/product/products/"+category_id,
+													url:"http://localhost:8090/product/products/"+category_id,
 													dataType:"json",
 													success:function(data){
 														if(data["products"].length>0){
@@ -172,22 +207,11 @@
 													function products(category_id){
 														$.ajax({
 														type:"GET",
-														url:"http://testmatgary.herokuapp.com/product/products/"+category_id,
+														url:"http://localhost:8090/product/products/"+category_id,
 														dataType:"json",
 														success:function(data){
 															$('.product').html("")
 															for(var i=0;i<data["products"].length;i++){
-																// //console.log(data["data"][i].Aname);
-																// catId1=data["products"][i]._id;
-																//
-																// 	var t = document.createTextNode(data["products"][i].Aname);       // Create a text node
-																//
-																// 	 var li = document.createElement("li");
-																// 	 var an = document.createElement("a");
-																// 	 an.appendChild(t);
-																// 	 // an.setAttribute('href', "/webuser/category/"+catId1);
-																// 	li.appendChild(an);
-																// 	$('.product').append(t);
 																var div1 = document.createElement("div");
 																div1.className = "col-md-2";
 																var div2 = document.createElement("div");
@@ -418,7 +442,7 @@
 			    						<img src="/user-static/images/p/now.svg" alt="" class="nowlable">
 					    			</div>
 				    				<div class="actionContainer">
-				    					<button aria-label="Add To wishlist" class="actionBtn">
+				    					<button aria-label="Add To wishlist " class="actionBtn addtocardbtn"  onclick="addTowishlist('<%=userId%>','<%=product._id%>')">
 				    						<i class="icon-h-13"></i>
 				    					</button>
 					    			</div>
@@ -449,7 +473,7 @@
 					    					</p>
 					    				</div>
 					    				<div class="actionContainer">
-					    					<button aria-label="Add To Cart" class="actionBtn">
+					    					<button aria-label="Add To Cart" class="actionBtn addtocardbtn "  onclick="addTocard('<%=userId%>','<%=product._id%>')">
 					    						<i class="icon-g-48"></i>
 					    					</button>
 					    				</div>

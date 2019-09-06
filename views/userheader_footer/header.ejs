@@ -1195,7 +1195,7 @@
 						<div class="tt-desctop-parent-account tt-parent-box">
 							<div class="tt-account tt-dropdown-obj">
 								<button class="tt-dropdown-toggle"  data-tooltip="My Account" data-tposition="bottom">
-									<i class="icon-f-94"></i>&nbsp;<span>My Account</span>
+									<i class="icon-f-94"></i>&nbsp;<span><%=username%></span>
 								</button>
 								<div class="tt-dropdown-menu">
 									<div class="tt-mobile-add">
@@ -1243,7 +1243,7 @@
 																<img src="images/loader.svg" data-src="images/product/product-01.jpg" alt="">
 															</div>
 															<div class="tt-item-descriptions">
-																<h2 class="tt-title">products</h2>
+																<h2 class="tt-title">product 1</h2>
 																<ul class="tt-add-info">
 																	<li>Yellow, Material 2, Size 58,</li>
 																	<li>Vendor: Addidas</li>
@@ -1261,7 +1261,7 @@
 																<img src="images/loader.svg" data-src="images/product/product-02.jpg" alt="">
 															</div>
 															<div class="tt-item-descriptions">
-																<h2 class="tt-title">products</h2>
+																<h2 class="tt-title">product 2</h2>
 																<ul class="tt-add-info">
 																	<li>Yellow, Material 2, Size 58,</li>
 																	<li>Vendor: Addidas</li>
@@ -1283,8 +1283,8 @@
 														<a href="#" class="btn">PROCEED TO CHECKOUT</a>
 													</div>
 													<div class="tt-item">
-														<a href="shopping_cart_02.html" class="btn-link-02 tt-hidden-mobile">View Cart</a>
-														<a href="shopping_cart_02.html" class="btn btn-border tt-hidden-desctope">VIEW CART</a>
+														<a href="/webuser/card/<%=userId%>" class="btn-link-02 tt-hidden-mobile">View Cart</a>
+														<a href="/webuser/card/<%=userId%>" class="btn btn-border tt-hidden-desctope">VIEW CART</a>
 													</div>
 												</div>
 											</div>
@@ -1321,7 +1321,7 @@
                           function subcat1(category_id){
                             $.ajax({
                             type:"GET",
-                            url:"http://testmatgary.herokuapp.com/category/subcategories/"+category_id,
+                            url:"http://localhost:8090/category/subcategories/"+category_id,
                             dataType:"json",
                             success:function(data){
                               $('.cat1').html("")
@@ -1393,7 +1393,7 @@
 													function subcat(category_id){
 														$.ajax({
 														type:"GET",
-														url:"http://testmatgary.herokuapp.com/category/subcategories/"+category_id,
+														url:"http://localhost:8090/category/subcategories/"+category_id,
 														dataType:"json",
 														success:function(data){
 															$('.mycat').html("")

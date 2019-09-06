@@ -1,0 +1,313 @@
+<%include ../userheader_footer/header.ejs%>
+<script type="text/javascript">
+$('body').on('click', '.addtocardbtn',function(e){
+	e.preventDefault();
+	var btn = $(this);
+	 btn.css("background","orange");
+	// if(isClicked == false){	isClicked = true;}else{isClicked = false;}
+ //
+	// if(isClicked){
+	//  btn.css("background","orange");
+ // }else{btn.css("background","gainsboro");}
+});
+function addTocard(userid,productid){
+// 	alert(userid);
+// alert(productid);
+var btn = $(this);
+	// console.log("userid");
+		$.ajax({
+		type:"GET",
+		url:"http://localhost:8090/authClient/addOneproducttocard/?cId="+userid+'&pId='+productid,
+		dataType:"json",
+		success:function(data){
+			//alert("success")
+			}
+	});
+	}
+
+	function addTowishlist(userid,productid){
+		$.ajax({
+		type:"GET",
+		url:"http://localhost:8090/authClient/addtoWishList/?cId="+userid+'&pId='+productid,
+		dataType:"json",
+		success:function(data){
+			alert("success")
+			}
+	});
+	}
+	//var mya = $(this);
+	function removefromcard(userid,productid){
+		$.ajax({
+		type:"GET",
+		url:"http://localhost:8090/authClient/removefromcard/?cId="+userid+'&pId='+productid,
+		dataType:"json",
+		success:function(data){
+			alert("success")
+			}
+	});
+
+		}
+		function removefromwishlist(userid,productid){
+			$.ajax({
+			type:"GET",
+			url:"http://localhost:8090/authClient/removeFromWishList/?cId="+userid+'&pId='+productid,
+			dataType:"json",
+			success:function(data){
+				//alert("success")
+				}
+		});
+			}
+
+
+</script>
+	<div class="container">
+		<div class="row">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#">Home</a></li>
+					<li class="breadcrumb-item"><a href="#">Shopping Cart</a></li>
+					<li class="breadcrumb-item active" aria-current="page">CheckOut</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+<div id="tt-pageContent">
+	<div class="container-indent">
+		<div class="container">
+			<h1 class="tt-title-subpages noborder">My Cart</h1>
+			<div class="row">
+				<div class="col-sm-12 col-xl-9">
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+						Some of the products in your cart
+						<strong> have run out of stock and have been moved to your wishlist
+						</strong>
+						The available units for some products in your cart have changed and have been reduced
+						Please review your cart before proceeding
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="tt-shopcart-table">
+						<table>
+							<tbody>
+								<%client.card.forEach(function(product){ %>
+								<tr>
+									<td>
+										<a href="/webuser/card/<%=userId%>" class="tt-btn-close" onclick="removefromcard('<%=userId%>','<%=product._id%>')"></a>
+									</td>
+									<td>
+										<div class="tt-product-img">
+											<img src="<%=product.productId.imgs[0]%>"  alt="">
+										</div>
+									</td>
+									<td>
+										<h2 class="tt-title">
+											<p class="typ"><%=product.productId.brandArabic%></p>
+											<p class="lead"><a href="#"><%=product.productId.Aname%></a></p>
+											<p class="CARTPRICE">AED <%=product.productId.price2%></p>
+										</h2>
+										<h6 class="tt-De mt-1">
+											Order in <span><%=product.productId.time.toLocaleDateString()%></span>  <span></span>
+										</h6>
+										<h6 class="tt-De">
+											Sold by <span><a href=""><%=product.productId.brandArabic%></a></span>
+										</h6>
+										<ul class="tt-list-parameters">
+											<li>
+												<div class="tt-price">
+													$124
+												</div>
+											</li>
+											<li>
+												<div class="detach-quantity-mobile"></div>
+											</li>
+											<li>
+												<div class="tt-price subtotal">
+													$124
+												</div>
+											</li>
+										</ul>
+									</td>
+									<td>
+										<div class="tt-price">
+											$124
+										</div>
+									</td>
+									<td>
+										<div class="detach-quantity-desctope">
+											<div class="tt-input-counter style-01">
+												<span class="minus-btn"></span>
+												<input type="text" value="1" size="5">
+												<span class="plus-btn"></span>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="tt-price subtotal">
+											$124
+										</div>
+									</td>
+								</tr>
+								<%});%>
+							</tbody>
+						</table>
+						<div class="tt-shopcart-btn">
+							<div class="col-left">
+								<a class="btn-link" href="#"><i class="icon-e-19"></i>CONTINUE SHOPPING</a>
+							</div>
+							<div class="col-right">
+								<a class="btn-link" href="#"><i class="icon-h-02"></i>CLEAR SHOPPING CART</a>
+								<a class="btn-link" href="#"><i class="icon-h-48"></i>UPDATE CART</a>
+							</div>
+						</div>
+					</div>
+					<br>
+					<h2>
+						My Wishlist
+					</h2>
+					<div class="tt-shopcart-table">
+						<table>
+							<tbody>
+								<%client.wishList.forEach(function(product){ %>
+									<tr>
+										<td>
+											<a href="/webuser/card/<%=userId%>" class="tt-btn-close" onclick="removefromwishlist('<%=userId%>','<%=product._id%>')"></a>
+										</td>
+										<td>
+											<div class="tt-product-img">
+												<img src="<%=product.productId.imgs[0]%>"  alt="">
+											</div>
+										</td>
+										<td>
+											<h2 class="tt-title">
+												<p class="typ"><%=product.productId.brandArabic%></p>
+												<p class="lead"><a href="#"><%=product.productId.Aname%></a></p>
+												<p class="CARTPRICE">AED <%=product.productId.price2%></p>
+											</h2>
+											<h6 class="tt-De mt-1">
+												Order in <span><%=product.productId.time.toLocaleDateString()%></span>  <span></span>
+											</h6>
+											<h6 class="tt-De">
+												Sold by <span><a href=""><%=product.productId.brandArabic%></a></span>
+											</h6>
+											<ul class="tt-list-parameters">
+												<li>
+													<div class="tt-price">
+														$124
+													</div>
+												</li>
+												<li>
+													<div class="detach-quantity-mobile"></div>
+												</li>
+												<li>
+													<div class="tt-price subtotal">
+														$124
+													</div>
+												</li>
+											</ul>
+										</td>
+										<td>
+											<div class="tt-price">
+												$<p><%=product.productId.price2%></p>
+
+											</div>
+										</td>
+										<td>
+											<div class="detach-quantity-desctope">
+												<div class="tt-input-counter style-01">
+													<span class="minus-btn"></span>
+													<input type="text" value="1" size="5">
+													<span class="plus-btn"></span>
+												</div>
+											</div>
+										</td>
+										<td>
+											<script type="text/javascript">
+
+											</script>
+											<div class="tt-price subtotal totalprice">
+
+											</div>
+										</td>
+									</tr>
+								<%})%>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-sm-12 col-xl-3">
+					<div class="tt-shopcart-wrapper nopad">
+						<div class="tt-shopcart-box">
+							<form class="form-default">
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" placeholder="Enter coupon or gift card" aria-label="Recipient's username" aria-describedby="button-addon2">
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-addon2">Apply</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tt-shopcart-box tt-boredr-large">
+							<h4 class="tt-title">
+								ORDER SUMMARY
+							</h4>
+							<table class="tt-shopcart-table01">
+								<tbody>
+									<tr>
+										<th>SUBTOTAL</th>
+										<td>$300</td>
+									</tr>
+									<tr>
+										<th>SHIPPING</th>
+										<td>FREE</td>
+									</tr>
+									<tr>
+										<th>SUBTOTAL</th>
+										<td>$24</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>GRAND TOTAL</th>
+										<td>$324</td>
+									</tr>
+								</tfoot>
+							</table>
+							<a href="#" class="btn btn-lg" data-toggle="modal" data-target="#modalAddToCartProduct"><span class="icon icon-check_circle"></span>PROCEED TO CHECKOUT</a>
+						</div>
+					</div>
+					<div class="tt-shopcart-wrapper nopad mt-2">
+						<div class="tt-shopcart-box tt-boredr-large text-center">
+							<h4 class="tt-title">
+								Buy now, pay later with noon EMI
+							</h4>
+							<p>
+								Available on purchases over AED 1000 at the following banks.
+							</p>
+							<ul class="tt-payment-list">
+								<li class="bank"><span class="nbd"></span></li>
+								<li class="bank"><span class="adcb"></span></li>
+								<li class="bank"><span class="mashreq"></span></li>
+								<li class="bank"><span class="fab"></span></li>
+								<li class="bank"><span class="rak"></span></li>
+							</ul>
+							<a href="">
+View full details here
+							</a>
+							<ul class="tt-payment-list">
+								<li class="mastercard"></li>
+								<li class="visa"></li>
+								<li class="cash"></li>
+								<li class="amex"></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%include ../userheader_footer/footer.ejs%>

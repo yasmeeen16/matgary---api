@@ -113,7 +113,7 @@ Router.get('/addtoWishList',function(req,resp){
 Router.get('/removeFromWishList',function(req,resp){
     // console.log(req.query.pId);
     // console.log(req.query.cId);
-      clientModel.updateOne({_id:req.query.cId},{$pull: {"wishList": {"productId": req.query.pId}}},function(err,result){
+      clientModel.updateOne({_id:req.query.cId},{$pull: {"wishList": {"_id": req.query.pId}}},function(err,result){
             if(err){
               resp.json(err);
             }else{
@@ -122,7 +122,22 @@ Router.get('/removeFromWishList',function(req,resp){
 
       });
 });
+//add product to card without quantity
+Router.get('/addOneproducttocard',BodyParserMid,function(req,resp){
+    // console.log(req.query.pId);
 
+      clientModel.updateOne({_id:req.query.cId},{$addToSet: {"card": {"productId": req.query.pId}}},function(err,result){
+            if(err){
+              resp.json(err);
+            }else{
+              // clientModel.find({_id:req.query.cId},function(err,client){
+              // resp.json({result:client});
+              // })
+              resp.json({result:true});
+            }
+
+      });
+});
 
 //add product to card
 Router.post('/addproducttocard',BodyParserMid,function(req,resp){
@@ -144,7 +159,7 @@ Router.get('/removefromcard',BodyParserMid,function(req,resp){
     // console.log(req.query.pId);
     // console.log(req.query.cId);
 
-      clientModel.updateOne({_id:req.query.cId},{$pull: {"card": {"productId": req.query.pId}}},function(err,result){
+      clientModel.updateOne({_id:req.query.cId},{$pull: {"card": {"_id": req.query.pId}}},function(err,result){
             if(err){
               resp.json(err);
             }else{

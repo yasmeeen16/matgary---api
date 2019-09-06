@@ -60,7 +60,11 @@ Router.post("/addproductToCat",BodyParserMid,function(req,resp){
            productModel.find({Aname:req.body.Aname , Ename:req.body.Ename}, function(err, products) {
              categoryDataModel.findOne({_id:req.body.catId},function(err,categ){
                if(categ){
+                 if(categ.mainParent!=null){
                  mainCategory=categ.mainParent;
+               }else{
+                 mainCategory=categ._id;
+               }
                }
                var product = new productModel({
                  Ename:req.body.Ename,
@@ -94,10 +98,12 @@ Router.post("/addproductToCat",BodyParserMid,function(req,resp){
                          //resp.redirect("/webadmin/addproductToCat/"+req.params.catId);
                          console.log(err);
                          return;
-                       }else
+                       }else{
+                      categoryDataModel.updateOne({_id:mainCategory},{$addToSet: {"productsID":product._id}},function(err,result){
                        resp.redirect('/webvendor/productvendor');
                        //resp.json({  product :  product});
-
+                     })
+                     }
                      });//save the object
 
 

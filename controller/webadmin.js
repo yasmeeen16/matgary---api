@@ -77,8 +77,10 @@ Router.post('/addOfferTC/:catId',BodyParserMid,function(req,resp,next){
           if(err){
             resp.json(err);
           }else{
+              offerModel.updateOne({_id:req.body.offer},{$addToSet: {"catsID":req.params.catId}},function(err,result){
             resp.redirect("/webadmin/home");
-            //resp.json({result:true});
+          //resp.json({result:result});
+          })
           }
 
     });

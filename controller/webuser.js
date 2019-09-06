@@ -14,6 +14,7 @@ require("../Model/vendorData")
 var categoryDataModel = mongoose.model("Category");
 var   subCategoryModel= mongoose.model("subCategory");
 var vendorDataModel=mongoose.model("vendorData");
+var clientDatamodel=mongoose.model("clientData");
 require("../Model/product");
 require("../Model/vendorData");
 var productModel = mongoose.model("product");
@@ -26,18 +27,20 @@ var uploadMid = multer({dest:"./public/imgs"});
 
 
 Router.get('/index',function(req,resp,next){
-  // categoryDataModel.find({parent:null},function(err,categories){
-  //   resp.render("userlayout/index1.ejs",{categories:categories});
-  //   //resp.json({categories:categories});
-  // }).sort( { time: 1 } )
-
-
-  categoryDataModel.find({parent:null},function(err,categories){
-    categoryDataModel.populate(categories,{path:"offerID"},function(err,categories){
-      resp.render("userlayout/index1.ejs",{categories:categories});
+//resp.json(req.session.client_id);
+categoryDataModel.find({parent:null},function(err,categories){
+  offerModel.find({},function(err,offers){
+    offerModel.populate(offers,{path:"catsID", populate: {path: 'productsID', model: 'product' }},function(err,offers){
+      clientDatamodel.findOne({_id:req.session.client_id},function(err,client){
+      //resp.json({offers:offers,categories:categories});
+      console.log(req.session.client_id);
+      resp.render("userlayout/index1.ejs",{categories:categories,offers:offers,userId:req.session.client_id,username:  req.session.username,client:client});
     })
+    })
+  })
 
-  }).sort( { time: 1 } );
+}).sort( { time: 1 } );
+
 });
 Router.get('/category/:catId',function(req,resp,next){
   categoryDataModel.find({parent:null},function(err,categories){
@@ -47,9 +50,9 @@ Router.get('/category/:catId',function(req,resp,next){
       if(catp){
         productModel.find({mainCategory:catp._id},function(err,allproducts){
     categoryDataModel.find({parent:req.params.catId},function(err,categories1){
-
-    resp.render("userlayout/category.ejs",{cat:cat,categories1:categories1,categories:categories,catp:catp,allproducts:allproducts})
-
+        clientDatamodel.findOne({_id:req.session.client_id},function(err,client){
+    resp.render("userlayout/category.ejs",{client:client,cat:cat,categories1:categories1,categories:categories,catp:catp,allproducts:allproducts,userId:req.session.client_id,username:req.session.username})
+  })
   })
   })
   }
@@ -58,6 +61,29 @@ Router.get('/category/:catId',function(req,resp,next){
 })
 })
 })
+Router.get('/card/:userId',function(req,resp,next){
+  categoryDataModel.find({parent:null},function(err,categories){
+    offerModel.find({},function(err,offers){
+      offerModel.populate(offers,{path:"catsID", populate: {path: 'productsID', model: 'product' }},function(err,offers){
+          clientDatamodel.findOne({_id:req.params.userId},function(err,client){
+            clientDatamodel.populate(client,{path:"card.productId", populate: {path: 'productId', model: 'product' }},function(err,client){
+                clientDatamodel.populate(client,{path:"wishList.productId", populate: {path: 'productId', model: 'product' }},function(err,client){
+
+        //resp.json({offers:offers,categories:categories});
+        console.log(req.session.client_id);
+        //resp.json({client:client,offers:offers});
+        //resp.json({categories:categories,offers:offers,userId:req.session.client_id,username:  req.session.username,client:client})
+        resp.render("userlayout/shopping-cart.ejs",{categories:categories,offers:offers,userId:req.session.client_id,username:  req.session.username,client:client});
+        })
+      })
+      })
+      })
+    })
+
+  }).sort( { time: 1 } );
+
+
+});
 
 //add product to category
 Router.post("/addproductToCat",BodyParserMid,function(req,resp){

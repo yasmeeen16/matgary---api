@@ -1,4 +1,68 @@
 <%include ../userheader_footer/header.ejs%>
+<script type="text/javascript">
+var isClicked = false;
+$('body').on('click', '.addtocardbtn',function(e){
+  e.preventDefault();
+	var btn = $(this);
+	 btn.css("background","orange");
+	// if(isClicked == false){	isClicked = true;}else{isClicked = false;}
+ //
+	// if(isClicked){
+	//  btn.css("background","orange");
+ // }else{btn.css("background","gainsboro");}
+});
+	function mydelete(){
+		alert("delete")
+	}
+	//var mya = $(this);
+	function addTocard(userid,productid){
+	// 	alert(userid);
+	// alert(productid);
+	var btn = $(this);
+		// console.log("userid");
+			$.ajax({
+			type:"GET",
+			url:"http://localhost:8090/authClient/addOneproducttocard/?cId="+userid+'&pId='+productid,
+			dataType:"json",
+			success:function(data){
+				//alert("success")
+				}
+		});
+		}
+
+		function addTowishlist(userid,productid){
+      $.ajax({
+      type:"GET",
+      url:"http://localhost:8090/authClient/addtoWishList/?cId="+userid+'&pId='+productid,
+      dataType:"json",
+      success:function(data){
+        alert("success")
+        }
+    });
+    }
+		//var mya = $(this);
+		function removefromcard(userid,productid){
+      $.ajax({
+      type:"GET",
+      url:"http://localhost:8090/authClient/removefromcard/?cId="+userid+'&pId='+productid,
+      dataType:"json",
+      success:function(data){
+        //alert("success")
+        }
+    });
+
+			}
+      function removefromwishlist(userid,productid){
+        $.ajax({
+        type:"GET",
+        url:"http://localhost:8090/authClient/removeFromWishList/?cId="+userid+'&pId='+productid,
+        dataType:"json",
+        success:function(data){
+          //alert("success")
+          }
+      });
+        }
+</script>
 
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -8,14 +72,14 @@
 		</ol>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img class="d-block w-100" src="/user-static/images/gif/01.gif" alt="First slide">
+				<img class="d-block w-100" src="<%=offers[0].img%>" alt="First slide">
 			</div>
+			<%offers.forEach(function(offer){ %>
 			<div class="carousel-item">
-				<img class="d-block w-100" src="/user-static/images/gif/02.gif" alt="Second slide">
+				<img class="d-block w-100" src="<%=offer.img%>" alt="Second slide">
 			</div>
-			<div class="carousel-item">
-				<img class="d-block w-100" src="/user-static/images/gif/03.gif" alt="Third slide">
-			</div>
+			<%});%>
+
 		</div>
 		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 			<span class="icon-e-02 t-l" aria-hidden="true"></span>
@@ -30,7 +94,85 @@
 	<div class="addons">
 		<img src="/user-static/images/gif/add-1.gif" alt="">
 	</div>
+<%offers.forEach(function(offer){ console.log(typeof(offer.catsID)) %>
+
+	<div class="">
+		<div   class="addons col-xs-12">
+			<img style="width:100% !important ;height:200px" src="<%=offer.img%>" alt="">
+		</div>
 	<div class="itemsSlider">
+		<div class="sliderTitle">
+			<h4><%=offer.name%></h4>
+			<a href="" class="Viewall">
+				view all
+			</a>
+		</div>
+		<!-- <script type="text/javascript">
+		mydelete();
+		</script> -->
+		<div class="ProSlider items product">
+			<%offer.catsID.forEach(function(catsID){ %>
+					<%catsID.productsID.forEach(function(product){ %>
+										<div class="item">
+	    		<a class="" href="">
+	    			<div class="proimage">
+	    				<div class="">
+    						<img src="<%=product.imgs[0]%>" alt="">
+	    				</div>
+	    				<div class="">
+    						<img src="/user-static/images/p/now.svg" alt="" class="nowlable">
+		    			</div>
+	    				<div class="actionContainer">
+	    					<button aria-label="Add To wishlist" class="actionBtn addtocardbtn"  onclick="addTowishlist('<%=userId%>','<%=product._id%>')">
+	    						<i class="icon-h-13"></i>
+	    					</button>
+		    			</div>
+		    		</div>
+		    		<div class="prodetails">
+	    				<p class="brand">
+		    				<%=product.brandArabic%>
+		    			</p>
+	    				<div class="name" style="overflow: hidden;">
+							<p>
+								<%=product.Aname%>
+							</p>
+	    				</div>
+	    				<div class="priceRow">
+	    					<div class="productPriceContainer">
+	    						<p class="proPrice">
+    								<span class="preReductionPrice">
+	    								<%=product.price1%>
+	    							</span>
+	    							<span class="discount">
+		    							<span class="discountBadge">
+		    							<%=product.discount%> off
+		    							</span>
+	    							</span>
+	    							<span class="sellingPrice">
+		    							<%=product.price2%>
+		    						</span>
+		    					</p>
+		    				</div>
+		    				<div class="actionContainer">
+		    					<button type="button" aria-label="Add To Cart" class="actionBtn addtocardbtn" onclick="addTocard('<%=userId%>','<%=product._id%>')">
+		    						<i class="icon-g-48" ></i>
+		    					</button>
+		    				</div>
+		    			</div>
+		    		</div>
+		    	</a>
+		    </div>
+
+
+					<%});%>
+
+			<%});%>
+
+
+	</div>
+</div>
+<%});%>
+	<!-- <div class="itemsSlider">
 		<div class="sliderTitle">
 			<h4>
 				Top Picks in Mobiles
@@ -629,7 +771,7 @@
 		    	</a>
 		    </div>
 		</div>
-	</div>
+	</div> -->
 	<div class="itemsSlider">
 		<div class="sliderTitle">
 			<h4>
@@ -3699,7 +3841,7 @@
 		</div>
 	</div>
 	<div class="addons">
-		<img src="images/gif/01E.png" alt="">
+		<img src="/user-static/images/gif/01E.png" alt="">
 	</div>
 
 
@@ -3707,32 +3849,32 @@
 
 	<div class="row">
 		<div class="col-6 mb-2">
-			<img src="images/gif/019.png" class="w-100">
+			<img src="/user-static/images/gif/019.png" class="w-100">
 		</div>
 		<div class="col-6 mb-2">
-			<img src="images/gif/020.png" class="w-100">
+			<img src="/user-static/images/gif/020.png" class="w-100">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-4">
-			<img src="images/gif/021.png">
+			<img src="/user-static/images/gif/021.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/022.png">
+			<img src="/user-static/images/gif/022.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/023.png">
+			<img src="/user-static/images/gif/023.png">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-4">
-			<img src="images/gif/024.png">
+			<img src="/user-static/images/gif/024.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/025.png">
+			<img src="/user-static/images/gif/025.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/026.png">
+			<img src="/user-static/images/gif/026.png">
 		</div>
 	</div>
 	<div class="itemsSlider">
@@ -4337,21 +4479,21 @@
 	</div>
 	<div class="row">
 		<div class="col-6 mb-2">
-			<img src="images/gif/01.jpg" class="w-100">
+			<img src="/user-static/images/gif/01.jpg" class="w-100">
 		</div>
 		<div class="col-6 mb-2">
-			<img src="images/gif/02.jpg" class="w-100">
+			<img src="/user-static/images/gif/02.jpg" class="w-100">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-4">
-			<img src="images/gif/029.png">
+			<img src="/user-static/images/gif/029.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/030.png">
+			<img src="/user-static/images/gif/030.png">
 		</div>
 		<div class="col-4">
-			<img src="images/gif/031.png">
+			<img src="/user-static/images/gif/031.png">
 		</div>
 	</div>
 	<div class="itemsSlider">
@@ -4956,13 +5098,13 @@
 	</div>
 	<div class="row">
 		<div class="col-4 mb-4">
-			<img src="images/gif/032.png">
+			<img src="/user-static/images/gif/032.png">
 		</div>
 		<div class="col-4 mb-4">
-			<img src="images/gif/033.png">
+			<img src="/user-static/images/gif/033.png">
 		</div>
 		<div class="col-4 mb-4">
-			<img src="images/gif/034.png">
+			<img src="/user-static/images/gif/034.png">
 		</div>
 	</div>
 	<div class="itemsSlider">
@@ -6167,10 +6309,10 @@
 	</div>
 	<div class="row no-gutters">
 		<div class="col-6 mb-4">
-			<img src="images/gif/035.png">
+			<img src="/user-static/images/gif/035.png">
 		</div>
 		<div class="col-6 mb-4">
-			<img src="images/gif/036.png">
+			<img src="/user-static/images/gif/036.png">
 		</div>
 	</div>
 	<div class="itemsSlider">
@@ -7374,9 +7516,9 @@
 		</div>
 	</div>
 	<div class="addons">
-		<img src="images/gif/yellow.jpg" alt="">
+		<img src="/user-static/images/gif/yellow.jpg" alt="">
 	</div>
 	<div class="addons">
-		<img src="images/gif/blue.png" alt="">
+		<img src="/user-static/images/gif/blue.png" alt="">
 	</div>
   <%include ../userheader_footer/footer.ejs%>

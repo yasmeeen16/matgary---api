@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var offer = new Schema ({
   _id: { type: Schema.ObjectId, auto: true },
   name:{type: String , require: true},
+  catsID:[{type: Schema.ObjectId,ref:"Category",default:null }],
   img:String,
   time:{
     type:Date,

@@ -39,15 +39,16 @@
         <%categories.forEach(function(category){ %>
 				<div class="col-md-2 col-sm-4">
 					<div class="tt-mobile-collapse">
-						<h4 class="tt-collapse-title"  onmouseover="subcattt('<%=category._id%>')">
+						<h4 class="tt-collapse-title">
 							<%=category.Aname%>
 						</h4>
 						<div class="tt-collapse-content">
               <script type="text/javascript">
+							 // onmouseover="subcattt('<%=category._id%>')"
                   function subcattt(category_id){
                     $.ajax({
                     type:"GET",
-                    url:"http://testmatgary.herokuapp.com/category/subcategories/"+category_id,
+                    url:"http://localhost:8090/category/subcategories/"+category_id,
                     dataType:"json",
                     success:function(data){
 
